@@ -6,33 +6,32 @@ description: "gitlab cicd 基礎"
 tags: ["gitlab", "cicd"]
 ---
 
-## 前言
-最近因為公司有在進行 GitLab 轉移，所以要重新建構 CICD，提供比較好維護的 CI modules，讓所有的組能夠通用，達到流程簡化的目的。有開始用一些比較進階的 CICD 寫法所以透過寫筆記，提升自己的印象。
+## 介紹
 
-## 概念
-使用 gitlab-ci 建立的自動化流程，稱作 `pipeline` 中文意思是流水線。就像設定好一個生產線一樣十分有趣。
-![gitlab pipeline](/img/gitlab/pipeline/pipeline.png)
+GitLab 是一個開源的 DevOps 平台，提供了版本控制、CI/CD、代碼審查等功能。它的 CI/CD 功能可以幫助開發者自動化軟體開發流程，提高開發效率和質量。
 
-這邊已經知道了 pipeline，那由誰執行 pipeline 的流程呢？答案是 `gitlab runner`。當有 pipeline 觸發且需要執行時，會有 job 產生，這些 job 就會分配給 runner 去執行囉！
-![gitlab runner](/img/gitlab/pipeline/runner.jpeg)
+GitLab 的 CI/CD 功能基於 GitLab Runner，允許開發者定義自動化的工作流程，從代碼提交到部署生產環境都可以自動化完成。
 
-## 基礎 CICD
-了解概念之後，就可以開始寫自己的 CICD 了！那一般的 CICD 流程是什麼呢？一般來說會有以下基本元素：
+GitLab CI/CD 的配置文件是 `.gitlab-ci.yml`，這個文件定義了 CI/CD 的工作流程，包括各個階段（stages）、任務（jobs）和執行的腳本（scripts）。開發者可以根據自己的需求定義不同的工作流程，並且可以在不同的階段中執行不同的任務。
 
-:one: Stage
+## 基本配置
 
-:two: Job
+以下是一個簡單的 `.gitlab-ci.yml` 配置範例，包含了三個階段：test、build 和 deploy。
 
-:three: Script
-
-可以看到下面的 yaml 是一個基礎的 pipeline 範例，可以看到有三個 stage，分別是 build、test、deploy，每個 stage 底下都有一個 job，每個 job 底下都有一個 script，這個 script 就是要執行的指令。
-
-範例：
 ```yaml
 stages:
-  - build
   - test
+  - build
   - deploy
+
+test:
+  stage: test
+  script:
+    # 定義 test 階段的指令
+    - echo "Running tests"
+    # 執行單元測試、程式碼品質檢查等
+    - npm test
+    - npm run lint
 
 build:
   stage: build
@@ -40,12 +39,8 @@ build:
     # 定義 build 階段的指令
     - echo "Building the application"
     - docker build -t $IMAGE_NAME:$TAG .
-
-test:
-  stage: test
-  script:
-    # 定義 test 階段的指令
-    - echo "Running tests"
+  # 只有當測試通過後才執行 build
+  needs: ["test"]
 
 deploy:
   stage: deploy
@@ -54,5 +49,46 @@ deploy:
     - echo "Deploying to production"
     # 在實際情況下，這裡可以是部署到 Kubernetes、AWS、GCP 等的相應指令
     # 也可以使用 Helm 進行部署
+  # 只有當 build 成功後才執行 deploy
+  needs: ["build"]
+```
 
+## 進階配置
+
+在生產環境中，通常需要更複雜的配置，例如：配置環境變數、建構 mysql 資料庫、redis 等服務。
+
+```yaml
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  stage: test
+  services:
+    - name: mysql:5.7
+      alias: db
+    - redis:latest
+      alias: redis
+  variables:
+    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
+    REDIS_PASSWORD: ${REDIS_PASSWORD}
+  script:
+    - echo "Running tests"
+    - npm test
+    - npm run lint
+
+build:
+  stage: build
+  script:
+    - echo "Building the application"
+    - docker build -t $IMAGE_NAME:$TAG .
+  needs: ["test"]
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to production"
+  needs: ["build"]
 ```
