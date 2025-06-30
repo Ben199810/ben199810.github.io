@@ -6,23 +6,32 @@ description: "dockerfile 相關知識"
 tags: ["docker"]
 
 ---
-## 前言
-docker 是將 image 俗稱映像或者鏡像檔，建立容器的模擬使用環境的技術。那要如何建立 image 呢？
-
-接著介紹本篇文章的重點 Dockerfile
 
 ## Dockerfile
-Dockfile 是一個建構 image 的腳本，基於你選擇的基底映像，開始安裝在開發環境所需要的依賴以及套件等等...
 
-建立 image 也可以保證每個開發者在進行開發時使用的環境都相同，不會導致將程式碼推上去版控，經過打包發布才發現有相容性的問題。有效的消除了在協同開發時會遇到的衝突呢～
+Dockerfile 是 Docker 的核心組件之一，用來定義如何建構一個 Docker 映像檔（image）。它是一個文本文件，包含了一系列的指令和參數，這些指令告訴 Docker 如何從基礎映像開始，安裝必要的軟體、配置環境變數、複製檔案等。
 
-下面提供簡單的 dockerfile 範例。下面的範例步驟使用引用 alpine image 當做基底，並且安裝 curl 套件。以 image 啟動 container 時，會執行 /bin/bash。 :point_right: `docker run -it [image] /bin/bash`
+可以保證每次使用相同的 Dockerfile 建構出來的映像檔都是一致的，這對於部署和維護應用程式非常重要。
+
+這裡要注意 EXPOSE，它用來告訴 Docker 哪些端口需要暴露給外部訪問。但是還是必須要在 `docker run` 時使用 `-p` 選項來實際映射端口。
 
 ```dockerfile
-# image 基底
+# 基礎映像，這裡使用 Alpine Linux，如果沒有指定 tag，則默認使用 latest
 FROM alpine
-# 安裝套件或執行的 shell 
-RUN apk add curl 
-
-CMD ["/bin/bash"]
+# 設定作者資訊
+LABEL maintainer="bing-wei"
+# 設定工作目錄
+WORKDIR /app
+# 複製當前目錄下的所有檔案到容器的 /app 目錄
+COPY . .
+# 安裝必要的套件
+RUN apk add --no-cache python3 py3-pip
+# 安裝 Python 相依套件
+RUN pip3 install -r requirements.txt
+# 設定環境變數
+ENV PYTHONUNBUFFERED=1
+# 暴露容器的 8000 端口
+EXPOSE 8000
+# 設定容器啟動時執行的命令
+CMD ["python3", "app.py"]
 ```
