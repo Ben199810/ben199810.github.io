@@ -1,9 +1,9 @@
-name: GitHub Pages
+name: github pages
 
 on:
   push:
     branches:
-      - main # Set a branch name to trigger deployment
+      - main # Set a branch to deploy
 
 jobs:
   deploy:
@@ -17,8 +17,8 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.110.0"
-          extended: true # Set to true if you use SCSS/SASS or other extended features
+          hugo-version: "latest" # '0.83.1'
+          # extended: true  # 有用擴充套件則將 # 移除
 
       - name: Build
         run: hugo --minify
