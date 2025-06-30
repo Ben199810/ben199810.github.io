@@ -19,7 +19,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.118.2" # '0.83.1'
+          hugo-version: "0.118.2"
           extended: true # 有用擴充套件則將 # 移除
 
       - name: Build
