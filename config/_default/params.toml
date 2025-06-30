@@ -18,7 +18,7 @@ mainSections = ["posts", "journals"]
 disableImageOptimization = false
 
 defaultBackgroundImage = "/img/background.svg"
-defaultFeaturedImage = "/img/devops.png"
+defaultFeaturedImage = "/img/featured.svg"
 
 highlightCurrentMenuArea = true
 smartTOC = true
