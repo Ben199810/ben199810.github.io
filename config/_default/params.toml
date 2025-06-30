@@ -17,7 +17,7 @@ mainSections = ["posts", "journals"]
 
 disableImageOptimization = false
 
-defaultBackgroundImage = "/img/starry-sky.jpeg"
+defaultBackgroundImage = "/img/background.svg"
 defaultFeaturedImage = "/img/devops.png"
 
 highlightCurrentMenuArea = true

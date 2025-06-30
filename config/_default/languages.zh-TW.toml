@@ -1,23 +1,21 @@
-languageCode = "zh-TW"
-languageName = "Chinese"
+disabled = false
+languageCode = "zh-tw"
+languageName = "Traditional Chinese"
 weight = 1
 title = "bing-wei's Blog"
 
 [params]
-  displayName = "TW"
-  isoCode = "zh-TW"
+  displayName = "繁體中文"
+  isoCode = "zh-tw"
   rtl = false
   dateFormat = "2 January 2006"
-  logo = "img/icon-blog.jpeg"
-  # secondaryLogo = "PATH"
-  description = "A powerful, lightweight theme for Hugo built with Tailwind CSS."
-  # copyright = "Copy, _right?_ :thinking_face:"
 
 [params.author]
   name = "bing-wei"
+  email = "ben29774583@gmail.com"
   image = "img/author.jpg"
   headline = "千里之行，始於足下。"
-  bio = "畢業後，進入 devops 領域。目前擔任 SRE 工程師。"
+  bio = "畢業後，進入 devops 領域。目前擔任 SRE 工程師，專注於系統可靠性和自動化。喜歡探索新技術，並致力於提升系統性能和穩定性。"
   links = [
     { github = "https://github.com/BingweiLai" }
   ]
