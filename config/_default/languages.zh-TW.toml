@@ -11,7 +11,7 @@ title = "bing-wei's Blog"
   dateFormat = "2 January 2006"
 
 [params.author]
-  name = "bing-wei"
+  name = "賴炳維"
   email = "ben29774583@gmail.com"
   image = "img/author.jpg"
   imageQuality = 96
