@@ -1,7 +1,6 @@
 ---
 title: "Dockerfile"
 date: 2023-08-27
-draft: false
 description: "dockerfile 相關知識"
 tags: ["docker"]
 
