@@ -1,7 +1,7 @@
 languageCode = "zh-TW"
 languageName = "Chinese"
 weight = 1
-title = "Bing-wei's Blog"
+title = "bing-wei's Blog"
 
 [params]
   displayName = "TW"
@@ -13,15 +13,11 @@ title = "Bing-wei's Blog"
   description = "A powerful, lightweight theme for Hugo built with Tailwind CSS."
   # copyright = "Copy, _right?_ :thinking_face:"
 
-[author]
-  name = "Bing-wei"
-  image = "img/headPhoto.png"
+[params.author]
+  name = "bing-wei"
+  image = "img/author.jpg"
   headline = "千里之行，始於足下。"
   bio = "畢業後，進入 devops 領域。目前擔任 SRE 工程師。"
   links = [
-    { twitter = "https://twitter.com/laiben186118" },
-    # { mastodon = "https://masto.ai/@blowfish" },
-    { github = "https://github.com/BingweiLai" },
+    { github = "https://github.com/BingweiLai" }
   ]
-
-  
