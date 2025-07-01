@@ -23,17 +23,17 @@
 [[main]]
   identifier = "github"
   pre = "github"
-  url = "https://github.com/BingweiLai"
+  url = "https://github.com/Ben199810"
   weight = 400
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before
 # the copyright notice. Configure as per the main menu above.
 
- [[footer]]
-   name = "標籤"
-   pageRef = "tags"
-   weight = 10
+[[footer]]
+  name = "標籤"
+  pageRef = "tags"
+  weight = 10
 
 #  [[footer]]
 #    name = "作者"
