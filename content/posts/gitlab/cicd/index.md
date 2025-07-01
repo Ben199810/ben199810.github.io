@@ -92,3 +92,28 @@ deploy:
     - echo "Deploying to production"
   needs: ["build"]
 ```
+
+### parallel:matrix
+
+⚠️ 對於 runner 的配置，必須要有多台 runner 或者配置單台 runner 配置支援同時執行多個任務。
+
+⚠️ 矩陣的排列數不能超過 200
+
+`parallel` 可以在單一的 pipeline 中同時執行多個任務，這對於需要在多個環境或配置下運行相同任務的情況非常有用。
+
+如果需要在不同的 Node.js 版本和環境下運行測試，可以使用 `parallel:matrix` 來定義一個矩陣，這樣可以在不同的配置下同時運行相同的任務。
+
+```yaml
+test:
+  stage: test
+  script:
+    - echo "Running tests"
+  parallel:
+    matrix:
+      - NODE_VERSION: [10, 12, 14]
+      - ENV: [development, production]
+```
+
+## 參考
+
+- [Parallel](https://docs.gitlab.com/ci/yaml/#parallelmatrix)
