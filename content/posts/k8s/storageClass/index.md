@@ -2,6 +2,7 @@
 title: "StorageClass"
 date: 2025-07-01T17:18:42+08:00
 draft: false
+tags: ["Kubernetes", "K8s", "Storage"]
 description: ""
 ---
 
@@ -62,3 +63,7 @@ PersistentVolume 可以配置為可擴充，允許透過 PVC 物件來調整磁�
 由 StorageClass 動態建立的 PersistentVolume 將使用類別中 `mountOptions`指定的掛載選項。
 
 如果磁碟區插件不支援掛載選項，卻指定了掛載選項，則製備操作會失敗。 掛載選項在 StorageClass 和 PV 上都**不會**做驗證。如果其中一個掛載選項無效，那麼這個PV 掛載作業就會失敗。
+
+## 參考
+
+[動態卷製備](https://kubernetes.io/zh-cn/docs/concepts/storage/dynamic-provisioning/)
