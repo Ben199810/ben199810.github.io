@@ -28,7 +28,9 @@ showAppearanceSwitcher = true
 showScrollToTop = true
 
 [homepage]
-layout = "background"
+# hero 背景圖片寬度等長於 Recent 項目圖片寬度
+# background 背景圖片寬度等長於螢幕寬度
+layout = "hero" # valid options: page, profile, hero, card, background, custom
 showRecent = true
 showRecentItems = 9
 showMoreLink = true
