@@ -1,13 +1,13 @@
 ---
 title: "Datadog Stopped Collecting Kafka Metrics"
 date: 2025-07-18T12:20:37+08:00
-draft: true
+draft: false
 tags: ["Datadog", "Kafka", "Metrics"]
 description: ""
 ---
 ## 事件過程
 
-近期有公司同仁反應 Datadog 停止收集 Kafka 的 metrics，因此進行調查的過程紀錄下來。未來若有同樣的問題，可以參考這篇文章。
+近期公司同仁反應 Datadog 停止收集 Kafka 的 metrics，因此進行調查的過程紀錄下來。未來若有同樣的問題，可以參考這篇文章。
 
 ## 架構圖
 
