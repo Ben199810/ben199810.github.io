@@ -2,6 +2,7 @@
 title: "Yamllint"
 date: 2025-07-14T08:56:36+08:00
 draft: true
+tags: ["YAML", "Lint"]
 description: ""
 ---
 ## 介紹
@@ -101,6 +102,7 @@ ignore:
 - `anchers`：檢查錨點和別名的使用情況。
 - `braces`：控制 Flow Mapping 中大括號的使用。
 - `brackets`：控制 Flow Sequence 中方括號的使用。
+- `document-start`：檢查文件開頭是否有 `---`。
 
 ```yaml
 rules:
@@ -120,6 +122,92 @@ rules:
     max-spaces-inside: 0
     min-spaces-inside-empty: -1
     max-spaces-inside-empty: -1
+  document-start: # 檢查文件開頭是否有 `---`。
+    present: true # 是否需要 `---` 開頭
+```
+
+- `empty-lines`：檢查空行的使用情況。
+
+為了規範團隊的代碼風格，可以設定空行的數量。很常有人會使用過多的空行來分隔代碼塊，這樣會導致代碼不易閱讀。
+
+```yaml
+rules:
+  empty-lines:
+    max: 1 # 允許的最大空行數
+```
+
+- example
+  - pass
+
+    ```yaml
+    - foo:
+      - 1
+      - 2
+
+    - bar: [3, 4]
+  - fail
+
+    ```yaml
+    - foo:
+      - 1
+      - 2
+
+
+    - bar: [3, 4]
+    ```
+
+- `indentation`：控制縮排的使用情況。
+
+Yaml 的文件縮進非常靈活，但為了保持一致性，通常會使用兩個空格或四個空格來縮排。為了更好的規範團隊的代碼風格，可以設定縮排的空格數量。
+
+`indent-sequences` 決定對於序列 (array) 的縮排方式，提供四種選擇：`true`、`false`、`consistent` 和 `whatever`。
+
+consistent 要求所有的序列都使用相同的縮排方式，可以全部都縮排或者全部都不縮排。
+
+whatever 則允許序列的縮排方式不一致，這樣可以更靈活地處理不同的情況。
+
+```yaml
+rules:
+  indentation:
+    spaces: 2 # 縮排使用的空格數量
+    indent-sequences: true
+```
+
+- example
+  - pass
+
+    ```yaml
+    history:
+      - name: Unix
+        date: 1969
+      - name: Linux
+        date: 1991
+    ```
+
+## 進階用法
+
+### 錨點和別名
+
+YAML 中的錨點 (anchors) 和別名 (aliases) 用於重複使用相同的值或結構，這樣可以減少重複代碼並提高可讀性。
+
+以下面的 YAML 為例：
+
+先使用 `&` 定義一個錨點，然後使用 `*` 來引用這個錨點。
+
+default_config 錨點設定了 key1 和 key2 會重複使用到的設定值。接著使用 `<<` 來合併這個錨點到其他配置中。
+
+```yaml
+&default_config:
+  key1: value1
+  key2: value2
+
+my_config:
+  <<: *default_config # 使用別名來引用錨點
+  key3: value3
+
+another_config:
+  <<: *default_config # 再次使用同一個錨點
+  key4: value4
 ```
 
 ### Flow Mapping
@@ -141,3 +229,5 @@ key1: {subkey1: value1, subkey2: value2}
 ## 參考資料
 
 [yamllint 文檔](https://yamllint.readthedocs.io/en/stable/#module-yamllint)
+
+[用 YAML anchors & aliases 寫出更好維護的 docker compose file](https://myapollo.com.tw/blog/docker-compose-yaml-anchors-and-aliases)
