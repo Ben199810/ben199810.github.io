@@ -110,6 +110,77 @@ flowchart LR
           - kafka
     ```
 
+5. Datadog Support 建議
+
+    Support 團隊建議可以使用 `flare` 傳遞資訊到案件單上，有助於排查問題。
+
+    在 kafka integration 中，設置 checke runner (cluster_check: true) 。因此可以 flare cluster agent 的資訊。
+
+    ```shell
+    kubectl exec -it <NAMESPACE> -it <CLUSTER_POD_NAME> -- agent flare <案件編號>
+    ```
+
+    檢查 cluster check runners。
+
+    ```shell
+    kubectl exec -n <NAMESPACE> -it <CLUSTER_POD_NAME> -- agent clusterchecks
+    ```
+
+6. Datadog Support 回饋
+
+    在提供上述的資訊之後，Support 團隊回覆在 flare (status.log) 中發現了 kafka instance 檢查的狀態。
+
+    ```text
+    =========
+    JMX Fetch
+    =========
+
+    Information
+    ==================
+    runtime_version : 11.0.23
+    version : 0.49.1
+    Initialized checks
+    ==================
+    kafka
+    - instance_name: kafka-02
+      metric_count: 346
+      service_check_count: 0
+      message: <no value>
+      status: OK
+    - instance_name: kafka-01
+      metric_count: 350
+      service_check_count: 0
+      message: Number of returned metrics is too high for instance: kafka-01. Please read http://docs.datadoghq.com/integrations/java/ or get in touch with Datadog Support for more details. Truncating to 350 metrics.
+      status: WARNING
+    - instance_name: kafka-03
+      metric_count: 350
+      service_check_count: 0
+      message: Number of returned metrics is too high for instance: kafka-03. Please read http://docs.datadoghq.com/integrations/java/ or get in touch with Datadog Support for more details. Truncating to 350 metrics.
+      status: WARNING
+    ```
+  
+    `kafka-01` 和 `kafka-03` 出現以下警告訊息：
+
+    ```text
+    Number of returned metrics is too high for instance: kafka-03. Please read http://docs.datadoghq.com/integrations/java/ or get in touch with Datadog Support for more details. Truncating to 350 metrics.
+    ```
+
+    Support 團隊建議由於傳回的指標數量太高，即高於預設值 350。因此，要解決此問題，您可以新增 `max_returned_metrics` 參數並將值設為高於 350。
+
+## 問題反思
+
+這次問題的根本原因是 Kafka 的 metrics 數量超過了 Datadog 的預設限制，導致部分 metrics 無法被收集。
+
+1. 如果不提高 `max_returned_metrics` 的上限值，有方法可以降低 `metric_count` 的數量嗎？
+
+    support 提供以下的方式減少 `metric_count` 的數量：
+
+    metric_count 值是每個 instance 的 Datadog 指標總數。
+
+    對於 Kafka integration，Datadog 指標是藉助此文件 metrics.yaml [（ 連結 ）](https://github.com/DataDog/integrations-core/blob/master/kafka/datadog_checks/kafka/data/metrics.yaml) 生成的，如果集成找到具有匹配的 domain、bean 和 attribute 的 jmx 指標，它將生成 Datadog 指標。
+
+    如果您想要減少 metric_count 值，您可以將此參數變更為 `collect_default_metrics` 為 false ，這樣就不會使用 metrics.yaml ，然後建立您自己的配置以專門匹配任何 jmx 指標以從此範例[（ 連結 ）](https://github.com/DataDog/integrations-core/blob/master/kafka/datadog_checks/kafka/data/conf.yaml.example#L37)產生 Datdog 指標。
+
 ## 參考資料
 
 [聊聊 Kafka 如何基於 JMX 監控](https://juejin.cn/post/7278918966214721547)
