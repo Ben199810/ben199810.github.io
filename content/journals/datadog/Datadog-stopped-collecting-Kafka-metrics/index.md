@@ -167,6 +167,91 @@ flowchart LR
 
     Support 團隊建議由於傳回的指標數量太高，即高於預設值 350。因此，要解決此問題，您可以新增 `max_returned_metrics` 參數並將值設為高於 350。
 
+## 修正範例與驗證
+
+在 values.yaml 中我們需要新增 `max_returned_metrics` 參數，並將其值設為需要的值且大於預設值。
+
+```yaml
+clusterAgent:
+  confd:
+    kafka.yaml: |-
+      cluster_check: true
+      init_config:
+        is_jmx: true
+        collect_default_metrics: true
+        new_gc_metrics: true
+      instances:
+        - host: <kafka-host>
+          port: 9134
+          name: kafka-01
+          max_returned_metrics: 500 # 新增此行
+```
+
+然後重新部署 Datadog Agent。
+
+使用 agent status 檢查 Kafka 的 metrics count 是否已經超過 350 且 status 從 WARNING 變為 OK。
+
+因為 agent 有很多台，所以使用腳本的方式去找到收集 Kafka VM Metrics 的 agent。
+
+```bash
+#!/bin/bash
+echo "Found pods:"
+kubectl get pods -n datadog -o custom-columns=NAME:.metadata.name --no-headers | grep -v cluster
+
+read -p "搜尋關鍵字：" SEARCH_KEYWORD
+
+PODS=$(kubectl get pods -n datadog -o custom-columns=NAME:.metadata.name --no-headers | grep -v cluster)
+
+IFS=$'\n' read -d '' -r -a POD_ARRAY <<< "$PODS"
+for POD in "${POD_ARRAY[@]}"; do
+  echo "Checking status of pod: $POD"
+  
+  kubectl exec -n datadog $POD -c agent -- agent status | grep "$SEARCH_KEYWORD"
+  if [ $? -ne 0 ]; then
+    echo "No kafka-common found in $POD"
+  fi
+  echo "----------------------------------------"
+done
+
+echo "Finished checking all pods."
+```
+
+找到對應的 agent 之後，使用以下指令檢查 Kafka 的 metrics count。
+
+可以看到 kafka 的 metrics count 已經超過 350 且 status 從 WARNING 變為 OK。
+
+```text
+=========
+JMX Fetch
+=========
+
+  Information
+  ==================
+    runtime_version : 11.0.23
+    version : 0.49.1
+  Initialized checks
+  ==================
+    kafka
+    - instance_name: kafka-02
+      metric_count: 346
+      service_check_count: 0
+      message: <no value>
+      status: OK
+    - instance_name: kafka-01
+      metric_count: 476
+      service_check_count: 0
+      message: <no value>
+      status: OK
+    - instance_name: kafka-03
+      metric_count: 443
+      service_check_count: 0
+      message: <no value>
+      status: OK
+  Failed checks
+  =============
+    no checks
+```
+
 ## 問題反思
 
 這次問題的根本原因是 Kafka 的 metrics 數量超過了 Datadog 的預設限制，導致部分 metrics 無法被收集。
