@@ -3,7 +3,7 @@ title: "Ingress"
 date: 2023-08-06
 draft: false
 description: "k8s ingress"
-tags: ["k8s", "ingress"]
+tags: ["kubernetes", "ingress"]
 
 ---
 ## 介紹

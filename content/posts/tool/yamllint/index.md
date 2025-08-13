@@ -2,7 +2,7 @@
 title: "Yamllint"
 date: 2025-07-14T08:56:36+08:00
 draft: false
-tags: ["YAML", "Lint"]
+tags: ["yaml", "lint"]
 description: ""
 ---
 ## 介紹

@@ -2,7 +2,7 @@
 title: "Kube Object No Match for Kind Version"
 date: 2025-07-02T14:23:37+08:00
 draft: false
-tags: ["k8s", "helm", "mapkubeapis", "autoscaling"]
+tags: ["kubernetes", "helm", "mapkubeapis", "autoscaling"]
 description: "解決 Helm 升級時遇到的 Kubernetes API 版本不匹配問題"
 ---
 最近在升級 helm release 時遇到了一個錯誤，提示 "no matches for kind HorizontalPodAutoscaler in version autoscaling/v2beta2"。

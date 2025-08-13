@@ -3,7 +3,7 @@ title: "Minikube 環境與安裝 (Mac M1/M2)"
 date: 2023-09-24
 draft: false
 description: "在 Mac M1/M2 上安裝 Minikube 環境"
-tags: ["k8s", "minikube", "mac", "m1", "m2"]
+tags: ["kubernetes", "minikube", "mac", "m1", "m2"]
 
 ---
 

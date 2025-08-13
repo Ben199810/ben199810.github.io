@@ -3,7 +3,7 @@ title: "Ingress Nginx Controller"
 date: 2023-08-19
 draft: false
 description: ""
-tags: ["k8s", "ingress"]
+tags: ["kubernetes", "ingress"]
 ---
 隨著系統架構日益複雜，可能需要使用多個 Ingress 來分離不同服務的流量管理。這樣做的好處是當某個 Ingress 發生異常時，不會影響到所有服務的運作。
 

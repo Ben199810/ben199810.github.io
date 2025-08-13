@@ -2,7 +2,7 @@
 title: "StorageClass"
 date: 2025-07-01T17:18:42+08:00
 draft: false
-tags: ["Kubernetes", "K8s", "Storage"]
+tags: ["kubernetes", "storage"]
 description: ""
 ---
 
