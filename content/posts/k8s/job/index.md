@@ -1,5 +1,5 @@
 ---
-title: "Job"
+title: "Kubernetes Job"
 date: 2025-08-13T09:28:49+08:00
 draft: false
 tags: ["kubernetes", "job"]
