@@ -1,9 +1,9 @@
 ---
 title: "Rewrite vs Redirect"
 date: 2025-08-19T08:47:58+08:00
-draft: true
+draft: false
 tags: ["nginx", "rewrite", "redirect"]
-description: ""
+description: "nginx 的 rewrite 和 redirect 的差異"
 ---
 ## 前言
 
@@ -55,6 +55,10 @@ location / {
   rewrite ^/old/(.*)$ /new/$1 redirect;
 }
 ```
+
+## 問題反思
+
+在使用 `rewrite` 的過程中，發現某些靜態資源無法正確加載，這可能是因為 `rewrite` 會在內部處理請求，而不會改變瀏覽器的 URL，導致某些資源的請求路徑不正確。相對而言，`redirect` 會直接告訴瀏覽器新的請求路徑，從而避免了這個問題。
 
 ## 參考
 
