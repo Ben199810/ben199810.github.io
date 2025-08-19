@@ -4,7 +4,7 @@ autoSwitchAppearance = true
 enableSearch = true
 enableCodeCopy = false
 replyByEmail = false
-mainSections = [ "posts", "journals" ]
+mainSections = [ "posts" ]
 disableImageOptimization = false
 disableImageOptimizationMD = false
 disableTextInHeader = false
@@ -32,7 +32,7 @@ showScrollToTop = true
 # background 背景圖片寬度等長於螢幕寬度
 layout = "hero" # valid options: page, profile, hero, card, background, custom
 showRecent = true
-showRecentItems = 9
+showRecentItems = 12
 showMoreLink = true
 showMoreLinkDest = "/posts/"
 cardView = true

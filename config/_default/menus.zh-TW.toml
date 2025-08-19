@@ -11,14 +11,9 @@
 # 按 weight 從低到高排序。
 
 [[main]]
-  name = "文章"
+  name = "Posts"
   pageRef = "posts"
-  weight = 10
-
-[[main]]
-  name = "日誌"
-  pageRef = "journals"
-  weight = 20
+  weight = 12
 
 [[main]]
   identifier = "github"
