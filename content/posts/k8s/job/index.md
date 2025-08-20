@@ -44,3 +44,7 @@ spec:
       restartPolicy: Never
   backoffLimit: 4
 ```
+
+## 參考資料
+
+[Kubernetes 文檔/概念/工作負載/工作負載管理/Job](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/job/)
