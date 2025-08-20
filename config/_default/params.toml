@@ -27,24 +27,31 @@ showThemeAttribution = true
 showAppearanceSwitcher = true
 showScrollToTop = true
 
+# 首頁設定
 [homepage]
 # hero 背景圖片寬度等長於 Recent 項目圖片寬度
 # background 背景圖片寬度等長於螢幕寬度
 layout = "hero" # valid options: page, profile, hero, card, background, custom
+# 顯示最近的文章
 showRecent = true
-showRecentItems = 9
-showMoreLink = true
-showMoreLinkDest = "/posts/"
-cardView = true
+# 最近的文章顯示幾個
+showRecentItems = 6
+# 是否顯示更多連結
+showMoreLink = false
+# showMoreLinkDest = "/posts"
+# 以卡片庫的形式顯示最近的文章
+cardView = false
+# 文章卡片庫的寬度以佔據可用的全部寬度。
 cardViewScreenWidth = false
-layoutBackgroundBlur = true
+# 使主頁佈局中的背景圖像隨著滾動而變得模糊
+layoutBackgroundBlur = false
 
 [article]
 showDate = true
 showViews = false
 showLikes = false
 showDateOnlyInArticle = false
-showDateUpdated = false
+showDateUpdated = true
 showAuthor = true
 showHero = false
 heroStyle = "background"
@@ -86,6 +93,7 @@ constrainItemsWidth = false
 [sitemap]
 excludedKinds = [ "taxonomy", "term" ]
 
+# 分類法
 [taxonomy]
 showTermCount = true
 showHero = true
@@ -97,7 +105,7 @@ showTableOfContents = true
 cardView = false
 
 [term]
-showHero = true
+showHero = false
 heroStyle = "background"
 showBreadcrumbs = false
 showViews = false
