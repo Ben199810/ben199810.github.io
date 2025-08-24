@@ -1,6 +1,6 @@
 ---
 title: "sticky session in kubernetes"
-date: 2025-08-024
+date: 2025-08-24T16:27:00+08:00
 draft: false
 tags: ["kubernetes", "session", "sticky session"]
 description: ""
