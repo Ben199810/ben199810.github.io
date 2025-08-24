@@ -1,7 +1,7 @@
 ---
 title: "sticky session in kubernetes"
 date: 2025-08-024
-draft: true
+draft: false
 tags: ["kubernetes", "session", "sticky session"]
 description: ""
 ---
@@ -104,6 +104,39 @@ description: ""
   ```bash
   curl -i -X GET http://socket.example.com
   ```
+
+## 問題反思
+
+這次的實作過程中，雖然這種方式看似可以保持客戶端與同一伺服器的連結。但因為是聊天室服務，可能還是會有一些問題需要注意：
+
+⭐️ session 親和性只是盡可能保持連接在同一伺服器，但無法保證 100% 的穩定性。如果第一次連線是連到 A 伺服器，之後因為某些原因（如伺服器重啟、負載均衡策略變更等）可能會被導向 B 伺服器，這樣就會導致用戶體驗不一致。
+
+下面是跟一位同仁討論之後紀錄下來的簡易架構圖：
+
+- client 端在一開始連線的時候，就是不同的 socket_server
+- client 端同時也會透過 api 對 MQ 或者 Pub/Sub 進行訊息的發送。
+- server 端可以依據 `channel` 進行訊息的路由。同步給在不同 socket_server 的 client。
+
+<div style="background-color:white; padding: 20px">
+{{< mermaid >}}
+flowchart
+
+client01
+client02
+MQ/Pub_Sub
+socket_server01
+socket_server02
+
+client01 --channel,msg--> MQ/Pub_Sub
+client02 --channel,msg--> MQ/Pub_Sub
+MQ/Pub_Sub --> socket_server01
+MQ/Pub_Sub --> socket_server02
+
+socket_server01 <--> client01
+socket_server02 <--> client02
+
+{{< /mermaid >}}
+</div>
 
 ## 參考資料
 
