@@ -140,6 +140,6 @@ socket_server02 <--> client02
 
 ## 參考資料
 
-[在 GCP/GKE 的 Ingress 設定 sticky session](https://aaronjen.github.io/2020-09-11-gke-ingress-sticky-session/)
-
-[透過獨立的區域 NEG 使用容器原生負載平衡](https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg?hl=zh-tw)
+- [在 GCP/GKE 的 Ingress 設定 sticky session](https://aaronjen.github.io/2020-09-11-gke-ingress-sticky-session/)
+- [透過獨立的區域 NEG 使用容器原生負載平衡](https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg?hl=zh-tw)
+- [同事的腦袋 🧠](https://blog.cosparks.app)
