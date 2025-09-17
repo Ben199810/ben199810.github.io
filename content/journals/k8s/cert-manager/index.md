@@ -35,6 +35,22 @@ flowchart
 {{< /mermaid >}}
 </div>
 
+## 遇到的問題
+
+透過網址訪問 API 服務時出現 `SSL certificate problem: certificate has expired` 的錯誤訊息，表示憑證已經過期了。那為什麼 cert-manager 沒有自動續期呢？發生了什麼錯誤就是我們要去調查的重點。
+
+1. 首先從流程圖可以知道，cert-manager 要更新 certificate 的時候會先建立一個 Certificate Request，可以從 describe 觀察到 event 顯示 Referenced ClusterIssuer not found，表示找不到對應的 ClusterIssuer。
+
+    ![cert-manager event](/img/k8s/cert-manager/certificate-request-event.png)
+
+2. 接著我們去查看 ClusterIssuer，可以發現 "letsencrypt" 這個 ClusterIssuer 根本不存在。
+
+    圖的話忘記截了，總之就是找不到這個 ClusterIssuer。🤣
+
+    因為 helm release 的 values 設定裡是存在的，所以使用 apply 也不會再建立一次。所以用 `helmfile sync` 重新部署一次。
+
+    完成之後，certificate request 就可以成功透過 ClusterIssuer 來向 Let's Encrypt 申請憑證了。
+
 ## 參考文章
 
 - [使用 cert-manager 管理 K8S TLS 憑證](https://medium.com/starbugs/%E4%BD%BF%E7%94%A8-cert-manager-%E7%AE%A1%E7%90%86-k8s-tls-%E6%86%91%E8%AD%89-ab6258af9195)
