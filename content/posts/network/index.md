@@ -53,6 +53,14 @@ tags: ["network"]
 
     常見的應用層協定有 HTTP、FTP、SMTP 等。
 
+# 請求標頭
+
+在網路通訊中，請求標頭(Request Header)是指在 HTTP 請求中包含的元數據，用於傳達有關請求本身的信息。
+
+- Host: 請求的目標伺服器主機名稱和端口號。
+- User-Agent: 發出請求的客戶端軟體資訊，例如瀏覽器類型和版本。
+- Content-Type: 請求主體的媒體類型，例如 application/json 或 text/html。
+
 # 參考資料
 
 - [OSI 七層架構](https://vocus.cc/article/618c7853fd8978000108c4d5)
