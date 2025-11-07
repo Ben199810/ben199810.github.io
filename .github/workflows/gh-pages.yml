@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - main # Set a branch to deploy
+      - main # 設定要部署的分支
   pull_request:
 
 jobs:
@@ -16,23 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+          submodules: true # 獲取 Hugo 主題（true 或 recursive）
+          fetch-depth: 0 # 獲取所有歷史記錄以支援 .GitInfo 和 .Lastmod
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "0.118.2"
-          extended: true # 有用擴充套件則將 # 移除
+          extended: true # 使用擴充版本
 
       - name: Build
         run: hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
+        # 如果您要從 main 更改分支，
+        # 也請相應地更改下面 `refs/heads/main` 中的 `main`
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
