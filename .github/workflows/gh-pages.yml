@@ -20,9 +20,9 @@ jobs:
           fetch-depth: 0 # 獲取所有歷史記錄以支援 .GitInfo 和 .Lastmod
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "0.118.2"
+          hugo-version: "0.145.2"
           extended: true # 使用擴充版本
 
       - name: Build
