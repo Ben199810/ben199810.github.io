@@ -29,7 +29,7 @@ jobs:
         run: hugo --minify
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
         # 如果您要從 main 更改分支，
         # 也請相應地更改下面 `refs/heads/main` 中的 `main`
         if: github.ref == 'refs/heads/main'
