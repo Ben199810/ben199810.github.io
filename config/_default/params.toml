@@ -2,7 +2,8 @@ colorScheme = "blowfish"
 defaultAppearance = "dark"
 autoSwitchAppearance = true
 enableSearch = true
-enableCodeCopy = false
+# 允許程式碼區塊複製按鈕
+enableCodeCopy = true
 replyByEmail = false
 mainSections = [ "posts", "journals" ]
 disableImageOptimization = false

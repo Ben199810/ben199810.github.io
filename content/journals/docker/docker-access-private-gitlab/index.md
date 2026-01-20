@@ -1,7 +1,8 @@
 ---
 title: "Dockerfile 如何設定 Golang 存取 Private GitLab"
 date: 2026-01-19T14:40:07+08:00
-draft: true
+draft: false
+tags: ["docker", "golang", "gitlab", "private repository"]
 description: "本文介紹如何在 Dockerfile 中設定 Golang 以存取 Private GitLab 儲存庫。"
 ---
 
@@ -202,4 +203,8 @@ CMD ["sh", "-c", "./${SERVICE_NAME} ${SERVICE_CMD}"]
    ```dockerfile
    RUN git config --global url."https://${USER}:${TOKEN}@private.gitlab.com/".insteadOf "https://private.gitlab.com/" && \
      git config --global url."https://${USER}:${TOKEN}@private.gitlab.com/".insteadOf "http://private.gitlab.com/"
-    ```
+   ```
+
+## 參考文獻📚
+
+- [Golang 從私有的GitLab取得依賴module Unable to get modules from private gitlab repository](https://matthung0807.blogspot.com/2021/07/go-unable-to-get-modules-from-private-gitlab-repository.html)
