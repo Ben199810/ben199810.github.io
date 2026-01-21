@@ -52,9 +52,13 @@ OS Login 則是將使用者的存取權限與 IAM 角色綁定，當使用者需
 2. 在建立堡壘機的時候，設定 SCOPES，確保包含以下的 SCOPES：
     - cloud-platform
 
+  補充說明：什麼是 SCOPES❓
+    SCOPES 是 GCP 中用來定義 VM 可以存取哪些 API 的權限範圍。當 VM 需要存取某些 GCP 服務時，必須先設定相應的 SCOPES，才能夠成功存取這些服務。上述的範例中，cloud-platform SCOPES 代表 VM 可以存取所有的 GCP 服務。在 GCP 控制台畫面可以看到 VM 的設定會如下圖所示：
+    ![VM SCOPES 設定範例](/img/oslogin/cloud-platform-scope.png "VM SCOPES 設定範例")
+
 做完上面兩個步驟之後，就有一台可以使用 OS Login 功能的堡壘機了。接著建立公司內部使用的其他 VM，例如： Jenkins、App Server、DB Server 等等，這些 VM 需要這定開啟 OS Login 功能。這樣的話，當使用者透過堡壘機連線到這些 VM 時，就會使用 OS Login 來進行身份驗證。
 
-1. 建立其他 VM 時，確保在 VM 的 Metadata 中設定 `enable-oslogin` 為 `TRUE`，這樣才能啟用 OS Login 功能。
+1. 建立其他內部 VM 時，確保在 VM 的 Metadata 中設定 `enable-oslogin` 為 `TRUE`，這樣才能啟用 OS Login 功能。
     ![VM Metadata 設定範例](/img/oslogin/vm-metadata.png "VM Metadata 設定範例")
 
 ## 驗證✅
