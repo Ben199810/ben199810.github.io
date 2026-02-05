@@ -76,7 +76,7 @@ agent any 表示這個 Pipeline 可以在任何可用的 Jenkins 節點上運行
 
 在 Jenkins UI 中，可以配置參數化的構建選項，這些參數可以在 Jenkinsfile 中使用。但是如果同一個 Jenkinsfile 提供很多 Pipeline 引用，每個 Pipeline 都需要配置一大堆參數，會讓人覺得很麻煩。參考圖片（一）：
 
-![](/img/jenkins/jenkinsfile/parameters.png)
+!["jenkinsfile 參數化構建選項"](/img/jenkins/jenkinsfile/parameters.png "jenkinsfile 參數化構建選項")
 
 為了解決這個問題，可以使用 `parameters` 區塊來定義結構化參數，例如：
 
