@@ -67,6 +67,27 @@ print(f"建立的超時索引名稱為: {index_name}")
 
 如果只有在 session_data 中新增 expiry 沒有創建超時索引 mongoDB 並不會清除過期的舊資料。這次遇到的問題就是 RD 有在每一筆資料中建立 expiry 但是並沒有建立 index 導致 mongoDB 沒辦法如預期清除舊資料，導致磁碟空間慢慢被佔用。
 
+## 遇到的問題❓
+
+### 磁碟空間沒有釋放出來💾
+
+doucment 已經加上 TTL Index，資料已經清除了，但磁碟空間沒有釋放出來。
+
+#### 問題思考🧐
+
+經過資料查詢以後，得到的結論是 MongoDB 的 WiredTiger 儲存引擎在刪除資料以後，並不會立即釋放磁碟空間，而是會將刪除的資料標記為可重用的空間，這樣可以提高寫入效率，但也會導致磁碟空間沒有釋放出來的問題。通常 SRE 會建立對 VM 的監控告警，當磁碟空間使用率達到一定的百分比（例如 80%）時，就會觸發告警，這樣就可以及時發現磁碟空間不足的問題。遇到上述的狀況要怎麼解決呢？
+
+#### 解決方案💡
+
+可以使用 `compact` 指令來壓縮資料庫，這樣就可以釋放出磁碟空間了，例如：
+
+```shell
+db.runCommand({ compact: '${collection}' })
+```
+
+這個指令會對指定的集合進行壓縮，釋放出被標記為可重用的空間，從而降低磁碟空間的使用率。
+
 ## 參考文獻📚
 
 - [玩轉 Python 與 MongoDB_Day25_超時索引 TTL Index](https://ithelp.ithome.com.tw/m/articles/10327175)
+- [compact（数据库命令）](https://www.mongodb.com/zh-cn/docs/manual/reference/command/compact/#compact--database-command-)
