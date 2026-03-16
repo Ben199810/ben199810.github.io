@@ -80,13 +80,17 @@ db.${collection}.find({ ${field}: ${value} })
 db.${collection}.findOne()
 ```
 
+通常我們可以先查詢一筆資料來確認資料的結構，然後再根據資料的結構來撰寫查詢條件。例如：圖片(一)中的資料結構中有一個欄位叫做 `expireAt`
+
+![文件結構](/img/posts/sql_mongodb/cmd/document_structure.png "圖片(一)")
+
 如果想要查詢 expireAt 這個欄位存在的資料，不管 expireAt 的值為何，可以使用以下指令：
 
 ```shell
-db.${collection}.findOne({ expireAt: { $exists: true } })
+db.${collection}.find({ expireAt: { $exists: true } })
 ```
 
-這樣就可以查詢到一筆資料中 expireAt 這個欄位存在的資料了。
+這樣就可以查詢資料中有存在 expireAt 這個欄位的資料了。
 
 #### 查詢目前正在執行的操作🔍
 
