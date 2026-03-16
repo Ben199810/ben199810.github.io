@@ -26,9 +26,7 @@ docker exec -it mongodb sh
 mongosh -u ${username} -p ${password} --authenticationDatabase admin
 ```
 
-#### 補充說明⭐️
-
-`--authenticationDatabase` 參數使用來驗證使用者的資料庫，通常會使用 `admin` 資料庫來驗證使用者的身份。如果有創建其他資料庫來驗證使用者的身份，也可以使用該資料庫來驗證，例如：
+這裡說明一下 `--authenticationDatabase` 參數，是使用來驗證使用者的資料庫，通常會使用 `admin` 資料庫來驗證使用者的身份。如果有創建其他資料庫來驗證使用者的身份，也可以使用該資料庫來驗證，例如：
 
 ```bash
 mongosh -u ${username} -p ${password} --authenticationDatabase ${authDB}
