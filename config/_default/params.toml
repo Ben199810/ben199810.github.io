@@ -1,4 +1,5 @@
 colorScheme = "blowfish"
+# 預設外觀主題，選項包括 "light"、"dark" 和 "auto"
 defaultAppearance = "dark"
 autoSwitchAppearance = true
 enableSearch = true
@@ -36,12 +37,12 @@ layout = "hero" # valid options: page, profile, hero, card, background, custom
 # 顯示最近的文章
 showRecent = true
 # 最近的文章顯示幾個
-showRecentItems = 6
+showRecentItems = 9
 # 是否顯示更多連結
-showMoreLink = false
-# showMoreLinkDest = "/posts"
+showMoreLink = true
+showMoreLinkDest = "/posts"
 # 以卡片庫的形式顯示最近的文章
-cardView = false
+cardView = true
 # 文章卡片庫的寬度以佔據可用的全部寬度。
 cardViewScreenWidth = false
 # 使主頁佈局中的背景圖像隨著滾動而變得模糊
