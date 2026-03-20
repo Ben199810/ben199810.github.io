@@ -1,130 +1,94 @@
 ---
-title: "Docker"
+title: "Docker 入門指南：從基礎概念到實際操作"
 date: 2023-07-30
-description: ""
-tags: ["docker"]
-
+description: "Docker 是一個開源的容器化平台，允許開發者將應用程式及其依賴打包在一個輕量級的容器中，實現跨平台的一致運行環境。本文將介紹 Docker 的基本概念、優缺點，以及如何在本機上使用 Docker 啟動一個 Nginx 容器。"
+tags: ["docker", "容器化", "虛擬機器", "開發效率"]
 ---
+## 什麼是 Docker❓
 
-## ❓什麼是 Docker?
+在過去，如果在每個開發者的個人電腦上進行開發，很容易會因為環境設定不一致，導致服務部署到生產環境時出現問題。而 Docker 的出現解決了這個問題，它允許開發者將程式碼、運行時環境、系統工具、庫等打包在一個容器中，確保在任何環境中都能以相同的方式運行。
 
-Docker 是一個容器化的平台，允許開發者將應用程式及其依賴打包在一個輕量級、可攜帶的容器中。這些容器可以在任何支援 Docker 的系統上運行，確保應用程式在不同環境中的一致性。
+這時候讀者們可能會有疑問，虛擬機器(VM)也可以達到類似的效果，那麼 Docker 和 VM 有什麼區別呢？下面會討論 Docker 和 VM 的差異，以及它們各自的優缺點。
 
-一般虛擬機器和 Docker 容器的差異，可以參考圖片（一）。
+可以從下圖來觀察 VM 和 Docker 容器的差異，可以發現 VM 上的應用程式不需要依賴在宿主機上的作業系統運行，而 Docker 容器則需要依賴宿主機的作業系統來運行，這也是 Docker 的一大優勢，因為省下了 OS 的資源使用，讓容器能更快地啟動和運行。
 
-![虛擬機與 Docker 容器的差異](/img/docker/docker_vs_vm.png "圖片（一）虛擬機與 Docker 容器的差異")
+![VM與 Docker 容器的差異](/img/posts/docker/docker-vs-vm.png "VM 與 Docker 容器的差異")
 
 ### 🔍優點與缺點
 
+上面介紹看到這裡，難道 Docker 就完全取代了虛擬機器嗎？其實不然，Docker 和 VM 都有各自的優缺點，適用於不同的場景。下面會從安全性、系統選擇、應用程式拆分、映像檔大小、啟動時間和資源使用等方面來比較 Docker 和 VM 的優缺點。
+
 兩種技術各有優缺點，選擇哪一種技術取決於具體的使用場景和需求，可以參考下方的表格來決定技術的選型。
 
-| 技術       | 優點                                         | 缺點                                       |
-| ---------- | -------------------------------------------- | ------------------------------------------ |
-| 虛擬機器（VM）| 安全性較高<br>系統的選擇較多<br>應用程式不須要被拆分 | VM Image 通常比較大<br>啟動時間較長<br>資源使用較多 |
-| 容器（Docker） | Image 通常比較小<br>快速啟動<br>資源使用較少 | 安全性較低<br>系統選擇受限<br>應用程式需拆分為多個服務 |
+| 技術 | 啟動時間 | 資源使用 | 系統選擇 | 安全性 | 映像檔大小 | 應用程式拆分 | 可攜性 |
+| --- | ---- | --- | --- | --- | --- | --- | --- |
+| 虛擬機器 | 慢 | 高 | 高 | 高 | 大 | 不需拆分 | 低 |
+| 容器 | 快 | 低 | 限制 | 低 | 小 | 需拆分 | 高 |
 
-## ❓如何使用 Docker?
+## 如何使用 Docker❓
 
-首先第一步要在本機電腦上安裝 Docker，可以使用 Homebrew 來安裝（以 macOS 為例）：
+對於 Docker 開始有初步的認識後，接下來將會練習如何在自己的本機電腦上使用 Docker 來啟動一個 Nginx 的容器。
 
-```bash
-brew install --cask docker
-```
+### 安裝 DockerDesktop🛠️
 
-安裝完成後，啟動 Docker 應用程式，並確認 Docker 已成功運行，可以使用以下指令來檢查 Docker 版本：
+首先，需要安裝工具，作者的電腦是 macOS，套件管理工具是 Homebrew，因此會使用 Homebrew 來安裝 Docker。
 
 ```bash
-docker --version
+brew install --cask docker-desktop
 ```
 
-### 🚀啟動第一個容器
+在終端機上執行指令安裝 docker-desktop，安裝完成以後，啟動 Docker 應用程式，可以看到 Docker 已成功運行，而且有 UI 的畫面，可以更方便的管理容器和映像檔。
 
-這邊會以啟動一個簡單的 Nginx 容器為例：
+![Docker Desktop UI](/img/posts/docker/docker-desktop.png "Docker Desktop UI")
+
+### 拉取容器映像檔📦
+
+有了工具以後，就可以開始使用 Docker 來啟動容器了，首先可以到 Docker Hub 上搜尋想要的映像檔，Docker Hub 是一個公共的映像檔倉庫，裡面有很多官方和社群維護的映像檔，可以直接使用。
+
+這次的練習，需要啟動一個 Nginx 的容器，因此可以在 Docker Hub 上搜尋 Nginx，找到官方的 Nginx 映像檔，然後使用 `docker pull` 指令來下載映像檔到本機電腦上。
 
 ```bash
-docker run --name mynginx -p 8080:80 -d nginx
+docker pull nginx:1.28
 ```
 
-## 匯出/匯入
+需要注意的是，如果沒有加上版本號。例如 `docker pull nginx`，預設是會下載最新的版本，但是生產環境中通常不建議使用最新版本，因為最新版本可能會有不穩定的問題，所以最好要加上版本號，例如 `docker pull nginx:1.28`，這樣就會下載 Nginx 1.28 的版本。
 
-export 和 save 都是用來匯出 docker 的映像檔，但是有些不同之處：
+完成以後，可以透過 Docker Desktop 的 UI 來查看已經下載的映像檔，或者使用 `docker images` 指令來查看。
 
-- export 可以匯出在容器中已變更的設定，例如安裝的軟體或修改的配置檔案。
-- save 單純匯出映像檔，不包含在容器中已變更的設定。
+![Docker Pull Nginx](/img/posts/docker/docker-pull_nginx1.28.png "Docker Pull Nginx")
 
-在使用上要注意，如果映像檔使用 export 匯出，則需要使用 import 匯入；如果使用 save 匯出，則需要使用 load 匯入。
+### 啟動容器🚀
+
+下載完成以後，就可以使用 `docker run` 指令來啟動一個 Nginx 的容器了，這邊會使用 `-p` 選項來將容器的 80 端口映射到本機電腦的 8080 端口，這樣就可以在瀏覽器上訪問 `http://localhost:8080` 來查看 Nginx 的歡迎頁面了。
 
 ```bash
-docker export image > filename.tar
-docker import < filename.tar
+docker run --name mynginx -p 8080:80 -d nginx:1.28
 ```
+
+成功啟動以後，可以使用 `docker ps` 指令來查看正在運行的容器，或者使用 Docker Desktop 的 UI 來查看。
+
+![Docker Run Nginx](/img/posts/docker/nginx_running.png "Docker Run Nginx")
+
+確認 Nginx 的容器已經成功啟動以後，就可以在瀏覽器上訪問 `http://localhost:8080` 來查看 Nginx 的歡迎頁面了。
+
+![Nginx Welcome Page](/img/posts/docker/nginx_welcome.png "Nginx Welcome Page")
+
+### 停止容器🛑
+
+如果要停止正在運行的容器，可以使用 `docker stop` 指令來停止容器。或者者使用 Docker Desktop 的 UI 來停止容器。
 
 ```bash
-docker save image > filename.tar
-docker load < filename.tar
+docker stop mynginx
 ```
 
-## 與容器進行交互
+完成以後，可以使用 `docker ps -a` 指令來查看所有的容器，確認 Nginx 的容器已經停止了。
 
-通常我們會使用 `docker run` 指令來啟動容器，如果需要與容器進行交互，可以使用以下選項：
+![Docker Stop Nginx](/img/posts/docker/nginx_stopped.png "Docker Stop Nginx")
 
-```bash
-docker run -it image /bin/bash
-```
+## 總結📝
 
-如果要退出容器，可以使用 `exit` 或 `ctrl+d`。
+相信通過這篇文章，讀者們對 Docker 已經有了初步的認識，了解了 Docker 的基本概念、優缺點、使用方法以及一些常見的操作技巧。Docker 是一個非常強大的工具，可以幫助開發者更高效地開發、測試和部署應用程式，尤其是在微服務架構和 DevOps 流程中，Docker 更是不可或缺的工具。
 
-## 查看容器
+## 參考文獻📚
 
-如果要查看正在運行的容器，可以使用以下指令 `docker ps`，如果要查看所有的容器（包括已停止的容器），可以使用 `docker ps -a`。
-
-```bash
-docker ps -a
-```
-
-## 查看容器內的標準輸出
-
-如果要查看容器內的標準輸出，可以使用 `docker logs` ，但是通常我們會持續的觀察容器的標準輸出，因此可以使用 `-f` 選項來持續查看。
-
-```bash
-docker logs -f container
-```
-
-## 查看容器啟動進程
-
-```bash
-docker top container
-```
-
-## 容器資源使用狀況
-
-```bash
-docker stats
-```
-
-## 清理技巧
-
-⭐ prune操作是批量刪除類的危險操作，使用 y 確認。不想要輸入可以添加 -f，慎用!
-
-### 清除所有停止運行的容器
-
-```bash
-docker container prune
-```
-
-### 清理未使用的映像檔
-
-```bash
-docker image prune 
-```
-
-### 清理所有無用的卷
-
-```bash
-docker volume prune
-```
-
-## 📚參考文獻
-
-- [淺談Docker-虛擬機器和容器的差別](https://ithelp.ithome.com.tw/articles/10238498)
-- [清理 Docker 的 container，image 與 volume](https://note.qidong.name/2017/06/26/docker-clean/)
+- [Day2 淺談Docker-虛擬機器和容器的差別](https://ithelp.ithome.com.tw/m/articles/10238498)
