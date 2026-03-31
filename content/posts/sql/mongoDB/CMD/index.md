@@ -58,6 +58,28 @@ show dbs
 show collections
 ```
 
+#### 資料表有多大📏
+
+可以使用 `stats` 指令來查看資料表的大小，例如：
+
+```shell
+db.${collection}.stats()
+```
+
+預設 `scale` 的值是 1，所以回傳的的單位是 byte，如果想要以 MB 為單位的話，可以使用 `scale` 參數來指定單位，例如：
+
+```shell
+db.${collection}.stats({ scale: 1024 * 1024 })
+```
+
+以下是常用的單位：
+
+```shell
+db.${collection}.stats({ scale: 1024 }) # KB
+db.${collection}.stats({ scale: 1024 * 1024 }) # MB
+db.${collection}.stats({ scale: 1024 * 1024 * 1024 }) # GB
+```
+
 #### 查詢資料📊
 
 查詢資料的指令是 `find`，可以使用 `find` 指令來查詢資料表中的資料，例如：
