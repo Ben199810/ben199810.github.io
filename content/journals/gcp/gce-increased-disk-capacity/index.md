@@ -40,9 +40,13 @@ gcloud compute disks resize ${DISK_NAME} \
 - `/dev/sda`：這是系統磁碟，通常是用來安裝作業系統的磁碟(開機磁碟)。
 - `/dev/sdb`：這是資料磁碟，通常是用來存放資料的磁碟(非開機磁碟)。
 
-可以看到 `/dev/sdb` 在 VM 中掛載的目錄路徑是 `/database`，而且目前的磁碟容量是 400GB。
+可以看到 `/dev/sdb` 在 VM 中掛載的目錄路徑是 `/database`，而且目前的磁碟容量是 512GB。但是因為已經調整過磁碟容量了，使用 `lsblk` 指令可以看到磁碟的大小已經變成 2TB 了。
 
 重新讀取磁碟新的分區，擴增磁碟大小以前。需要先確認分割區類型，可以使用 `sudo parted -l` 指令來查看磁碟的分割區類型。
+
+```shell
+sudo parted -l
+```
 
 ![parted的輸出結果](img/journals/gcp/gce-increased-disk-capacity/parted_outputs.png "parted的輸出結果")
 
@@ -57,6 +61,10 @@ sudo xfs_growfs /database
 ```bash
 sudo resize2fs /dev/sdb1
 ```
+
+當執行完擴增磁碟大小的指令以後，再次使用 `df` 指令來確認磁碟的容量已經增加了。
+
+![df的輸出結果](img/journals/gcp/gce-increased-disk-capacity/df_outputs_after_resize.png "df的輸出結果")
 
 ## 參考文獻📚
 
