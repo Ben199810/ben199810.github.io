@@ -1,8 +1,9 @@
 ---
-title: "Cluster Deploy"
+title: "Elasticsearch 集群部署指南：使用 Docker Compose 快速搭建"
 date: 2026-04-20T09:09:58+08:00
-draft: true
-description: ""
+draft: false
+tags: ["elasticsearch", "docker-compose", "cluster-deploy"]
+description: "本文將介紹如何使用 Docker Compose 快速部署一個 Elasticsearch 集群，包含三個節點和一個 Kibana 節點。通過這個指南，你將學會如何配置和啟動 Elasticsearch 集群，以及如何訪問 Kibana 來管理和可視化你的數據。"
 ---
 
 ## 前言🔖
@@ -11,6 +12,8 @@ elasticsearch 對於可觀測性來說是非常重要的，尤其是在分散式
 
 以下範例會使用 docker-compose 來部署一個簡單的 elasticsearch 集群，包含三個節點。
 使用的 elasticsearch 版本為 8.9.2，kibana 版本為 8.9.2。
+
+在我的 github 上也有這個範例的完整程式碼，歡迎參考：[elasticsearch_example](https://github.com/Ben199810/elasticsearch_example)
 
 ## 部署步驟🚀
 
@@ -28,7 +31,7 @@ services:
       - discovery.seed_hosts=es02,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - "xpack.security.enabled=false"
       - "indices.memory.index_buffer_size=30%"
     ulimits:
@@ -36,7 +39,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /database/esdata1:/usr/share/elasticsearch/data
+      - ./database/esdata1:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
     logging:
@@ -47,11 +50,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "8"
-          memory: 16G
+          cpus: "1"
+          memory: 4G
         reservations:
-          cpus: "3"
-          memory: 8G
+          cpus: "0.5"
+          memory: 2G
     networks:
       - elk
   es02:
@@ -64,7 +67,7 @@ services:
       - discovery.seed_hosts=es01,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - "xpack.security.enabled=false"
       - "indices.memory.index_buffer_size=30%"
     ulimits:
@@ -72,7 +75,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /database/esdata2:/usr/share/elasticsearch/data
+      - ./database/esdata2:/usr/share/elasticsearch/data
     ports:
       - "9201:9200"
     logging:
@@ -83,11 +86,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "8"
-          memory: 16G
+          cpus: "1"
+          memory: 4G
         reservations:
-          cpus: "3"
-          memory: 8G
+          cpus: "0.5"
+          memory: 2G
     networks:
       - elk
   es03:
@@ -100,7 +103,7 @@ services:
       - discovery.seed_hosts=es01,es02
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - "xpack.security.enabled=false"
       - "indices.memory.index_buffer_size=30%"
     ulimits:
@@ -108,7 +111,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /database/esdata3:/usr/share/elasticsearch/data
+      - ./database/esdata3:/usr/share/elasticsearch/data
     ports:
       - "9202:9200"
     logging:
@@ -119,11 +122,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "8"
-          memory: 16G
+          cpus: "1"
+          memory: 4G
         reservations:
-          cpus: "3"
-          memory: 8G
+          cpus: "0.5"
+          memory: 2G
     networks:
       - elk
   kibana:
@@ -144,11 +147,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "2"
-          memory: 2G
-        reservations:
-          cpus: "1"
+          cpus: "0.5"
           memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 0.5G
     depends_on:
       - es01
       - es02
@@ -184,3 +187,27 @@ GET _nodes?filter_path=**.mlockall
 - `xpack.security.enabled=false`：這個設置禁用了 Elasticsearch 的安全功能，這樣我們就不需要設置用戶名和密碼來訪問 Elasticsearch。
 - `indices.memory.index_buffer_size=30%`：這個設置指定了 Elasticsearch 用於索引緩衝區的內存大小，預設為 10%，因為日誌量較大，所以我們將其增加到 30%。建議根據實際情況調整這個值。
 - `logging`：我們使用了 `json-file` 日誌驅動程序，並設置了日誌文件的最大大小和數量，以防止日誌文件過大。
+
+## 啟動集群
+
+在 `docker-compose.yml` 文件所在的目錄中運行以下命令來啟動集群：
+
+```bash
+docker-compose up -d
+```
+
+啟動群集後，可以使用以下命令來檢查服務的狀態：
+
+```bash
+docker ps
+```
+
+可以在終端機上面看到四個容器正在運行，分別是 `es01`、`es02`、`es03` 和 `kibana`。
+
+![docker ps](/img/posts/elastic/cluster-deploy/docker-ps.png "docker ps")
+
+## 訪問 Kibana
+
+打開瀏覽器，訪問 `http://localhost:5601`，你應該能看到 Kibana 的歡迎頁面。這表示你的 Elasticsearch 集群已經成功部署並且 Kibana 可以連接到它。
+
+![Kibana Welcome Page](/img/posts/elastic/cluster-deploy/kibana-welcome.png "Kibana Welcome Page")
