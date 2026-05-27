@@ -64,6 +64,63 @@ def list_articles_with_featured():
     
     return articles
 
+def select_articles_with_fzf(articles):
+    """使用 fzf 選擇文章（支援多選、預覽）"""
+    # 建立 fzf 輸入格式：顯示狀態、路徑、大小
+    fzf_input = []
+    for idx, article in enumerate(articles, 1):
+        status = "✓" if article['compressed'] else "○"
+        size_kb = article['size'] / 1024
+        # 格式：[索引] 狀態 路徑 (大小)
+        line = f"{idx:3d} | {status} | {str(article['rel_path']):50s} | {size_kb:8.1f} KB"
+        fzf_input.append(line)
+    
+    # fzf 參數
+    fzf_cmd = [
+        'fzf',
+        '--multi',  # 多選模式
+        '--reverse',  # 反向顯示
+        '--height', '80%',
+        '--border',
+        '--header', '📋 選擇要壓縮的文章 (Tab: 多選, Enter: 確認, Ctrl-A: 全選, Ctrl-D: 取消全選)',
+        '--header-lines', '0',
+        '--prompt', '🔍 搜尋 > ',
+        '--preview', 'echo {}',
+        '--preview-window', 'down:3:wrap',
+        '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all',
+        '--bind', 'ctrl-/:toggle-preview',
+    ]
+    
+    try:
+        # 執行 fzf
+        result = subprocess.run(
+            fzf_cmd,
+            input='\n'.join(fzf_input),
+            text=True,
+            capture_output=True,
+            check=True
+        )
+        
+        # 解析選中的行
+        selected_lines = result.stdout.strip().split('\n')
+        selected_indices = []
+        
+        for line in selected_lines:
+            if line:
+                # 提取索引（第一個數字）
+                idx = int(line.split('|')[0].strip())
+                selected_indices.append(idx)
+        
+        # 返回對應的文章
+        return [articles[i - 1] for i in selected_indices]
+        
+    except subprocess.CalledProcessError:
+        # 使用者取消或 fzf 失敗
+        return []
+    except FileNotFoundError:
+        # fzf 未安裝
+        return None
+
 def select_articles_interactive():
     """互動式選擇要壓縮的文章"""
     articles = list_articles_with_featured()
@@ -72,7 +129,17 @@ def select_articles_interactive():
         print("❌ 沒有找到任何文章封面圖！")
         return []
     
-    print(f"\n📋 找到 {len(articles)} 篇文章：\n")
+    print(f"\n📋 找到 {len(articles)} 篇文章\n")
+    
+    # 嘗試使用 fzf
+    fzf_result = select_articles_with_fzf(articles)
+    
+    if fzf_result is not None:
+        # fzf 成功執行（可能選中或取消）
+        return fzf_result
+    
+    # fzf 不可用，回退到傳統選單
+    print("💡 提示: 安裝 fzf 可獲得更好的選擇體驗 (brew install fzf)\n")
     
     for idx, article in enumerate(articles, 1):
         status = "✓ 已壓縮" if article['compressed'] else "○ 未壓縮"
