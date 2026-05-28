@@ -1,8 +1,9 @@
 ---
-title: "Commitlint Tool"
+title: "使用 commitlint 工具規範提交訊息格式"
 date: 2026-05-27T14:50:41+08:00
-draft: true
-description: ""
+draft: false
+description: "在專業協作開發中，使用 commitlint 工具來規範提交訊息的格式是非常重要的。這不僅有助於提高代碼的可讀性，還能促進團隊協作和版本控制的管理。本文將介紹如何使用 commitlint 工具來規範提交訊息格式，以及一些常用的規則和插件配置。"
+tags: ["git", "commitlint", "工具", "提交訊息", "規範"]
 ---
 
 ## 前言🔖
@@ -66,7 +67,7 @@ echo "yarn commitlint --edit \$1" > .husky/commit-msg
 commitlint 允許我們可以自定義規則來檢查提交訊息的格式。以下是作者常用的一些規則：
 
 ```javascript
-const typeEnum [
+const typeEnum = [
   "feat", // 新功能/修改功能
   "fix", // 修復錯誤
   "docs", // 文檔變更
@@ -81,10 +82,74 @@ const typeEnum [
 ];
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
-}
+  extends: ["@commitlint/config-conventional"],
+  rules: {
+    "type-enum": [2, "always", typeEnum],
+    "subject-format": [2, "always", /^[a-z]+: .+$/i],
+    "subject-jira-format": [1, "always", /^[a-z]+: \[.*\] .+$/i],
+  },
+  parserPreset: {
+    parserOpts: {
+      headerPattern: /^(\w+): (.+)$/,
+      headerCorrespondence: ["type", "subject"],
+    },
+  },
+  plugins: [
+    {
+      rules: {
+        "type-enum": ({ type }) => {
+          const isValidType = typeEnum.includes(type);
+          return [
+            isValidType,
+            isValidType
+              ? true
+              : `輸入的 type '${type}' 不在允許的範圍內: ${typeEnum.join(
+                  ", "
+                )}。`,
+          ];
+        },
+        "subject-format": (parsed) => {
+          const regex = /^[a-z]+: .+$/i;
+          const isValidFormat = regex.test(parsed.header);
+          return [
+            isValidFormat,
+            isValidFormat
+              ? true
+              : `請確保格式為 <type>: <描述>，例如：feat: 新增功能。`,
+          ];
+        },
+        "subject-jira-format": (parsed) => {
+          const regex = /^[a-z]+: \[.*\] .+$/i;
+          const isJiraFormat = regex.test(parsed.header);
+          return [
+            isJiraFormat,
+            isJiraFormat
+              ? true
+              : `建議格式為 <type>: [JIRA-ISSUE] <描述>，例如：feat: [JIRA-123] 新增功能。`,
+          ];
+        },
+      },
+    },
+  ],
+};
 ```
+
+在 rules 中，我們先來解釋陣列內的各個元素代表什麼意思：
+
+- 第一個元素（0, 1, 2）代表規則的嚴重程度，0 表示關閉規則，1 表示警告，2 表示錯誤。
+- 第二個元素（"never", "always"）表示規則的觸發條件，"never" 表示不允許使用某些值，"always" 表示必須符合規則。
+
+在這個配置中，我們定義了三個規則：
+
+1. "type-enum": 這個規則檢查提交訊息的 type 是否在允許的範圍內。如果不符合，會返回一個錯誤訊息，提示使用者輸入的 type 不在允許的範圍內。
+2. "subject-format": 這個規則檢查提交訊息的格式是否符合 <type>: <描述> 的格式。如果不符合，會返回一個錯誤訊息，提示使用者確保格式正確。
+3. "subject-jira-format": 這個規則檢查提交訊息的格式是否符合 <type>: [JIRA-ISSUE] <描述> 的格式。如果不符合，會返回一個警告訊息，建議使用者遵循這個格式。
+
+### plugins 插件
+
+plugins 的作用是用來追加新的自定義規則，與 rules 相輔相成。
 
 ## 參考文獻📚
 
 - [專業協作開發：使用 Commitlint 規範你的提交訊息](https://notes.boshkuo.com/docs/NodeJS/pkgs/commitlint)
+- [commitlint](https://commitlint.js.org/)
