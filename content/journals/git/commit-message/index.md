@@ -104,6 +104,10 @@ Conventional Commit 的格式其實很簡單，看起來像這樣：
 - 功能：Husky 是一款 Git hooks 工具，可以在提交前自動執行指定的腳本，例如 Commitlint 的檢查。
 - 特色：配合 Commitlint 使用，實現提交訊息的本地校驗。可用於其他操作，如執行測試、格式化程式碼等，擴展性強。
 
+如果想要在專案中引入這些工具，下一篇文章將會介紹如何安裝和配置 Commitlint 和 Husky，讓你的團隊能夠輕鬆遵守 Git Commit 規範。
+
+{{< article link="/journals/git/commitlint-tool/" showSummary=true compactSummary=true >}}
+
 ## 參考文獻📚
 
 - [Git Commit Message 這樣寫會更好，替專案引入規範與範例](https://ithelp.ithome.com.tw/articles/10228738)
