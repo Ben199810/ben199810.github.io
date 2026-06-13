@@ -18,7 +18,17 @@
 [[main]]
   name = "日誌"
   pageRef = "journals"
-  weight = 20
+  weight = 10
+
+[[main]]
+  name = "生活"
+  pageRef = "lifes"
+  weight = 10
+
+[[main]]
+  name = "閱讀心得"
+  pageRef = "reads"
+  weight = 10
 
 [[main]]
   identifier = "github"
