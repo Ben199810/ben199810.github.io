@@ -26,23 +26,28 @@ docker swarm init --advertise-addr <IP_ADDRESS>
 
 初始化建立完成以後，會產生一個 token，這個 token 是用來讓 worker node 加入 swarm 的。
 
+⭐️ 這裡補充說明一下，可能會有人疑問為什麼要使用 2377 連接埠，這是 manager node 用來跟 worker node 進行通訊的連接埠。其中還有 7946 連接埠用來覆蓋網路節點發現的 TCP/UDP連接埠，4789 連接埠用來覆蓋網路流量的 UDP連接埠。
+
 ```bash
 # 在 worker node 上使用 token 加入 swarm
 docker swarm join --token <TOKEN> <MANAGER_IP>:2377
 ```
 
-如果沒有忘記 token 的話，可以使用以下指令來查看 token：
+如果忘記 token 的話，可以使用以下指令來查看 token：
 
 ```bash
 # 查看 worker node 的 token
 docker swarm join-token worker
 ```
 
-如果是要讓 manager node 加入 swarm 的話可以用：
+如果建立了新的 node 加入 manager node group 的話可以用指令先查看 manager node 的 token：
 
 ```bash
 # 查看 manager node 的 token
 docker swarm join-token manager
+
+# 使用 manager node 的 token 加入 swarm
+docker swarm join --token <manager_token> <MANAGER_IP>:2377
 ```
 
 完成叢集的建置以後，可以用以下指令來查看 node 的狀態：
@@ -87,6 +92,12 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+configs:
+  api_config:
+    external: true
+volumes:
+  logs:
 ```
 
 原本的 api config 我們是透過 volume 掛載到 container 裡面，但是如果換成 docker swarm 的話，每一台 worker node 都會需要建立一個 config 文件，這樣才能讓每一個 container 都能夠讀取到 config 文件。為了要解決這個問題，我們會透過 docker swarm 的 config 功能，將 config 文件上傳到 swarm 叢集裡面，這樣每一個 container 都能夠讀取到 config 文件。
@@ -135,7 +146,7 @@ docker stack services <STACK_NAME>
 docker service logs <SERVICE_NAME>
 ```
 
-如果服務都順利啟動了以後，就可以在 manager node 上面 curl 測試看看 api container 是否有正常運作。
+如果服務都順利啟動了以後，就可以在 manager node 上面 curl 測試看看 api container 是否有正常運作。因為我啟動的 api container 是監聽在 3000 port，所以我就 curl 會測試 3000 port 是否有正常回應。
 
 ```bash
 curl http://<MANAGER_IP>:3000/api/health
