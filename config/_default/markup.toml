@@ -2,6 +2,12 @@
 # 這些設定是主題正常運作所必需的.
 
 [goldmark]
+  [goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+
+    [goldmark.parser.attribute]
+      block = true
+
   [goldmark.renderer]
     unsafe = true
 
