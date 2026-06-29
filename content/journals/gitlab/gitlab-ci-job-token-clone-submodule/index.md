@@ -181,6 +181,20 @@ variables:
 
 ![job token permissions](/img/journals/gitlab/gitlab-ci-job-token-clone-submodule/job-token-permissions.png 'job token permissions')
 
+## 遇到的問題❓
+
+將舊的專案導入 submodule 的時候，使用 `git submodule add <公共資源倉庫的 URL> <子模塊的路徑>` 的方式，會出現以下的錯誤訊息：
+
+```text
+fatal: <子模塊的路徑> already exists in the index
+```
+
+代表這個路徑可能有先前可能已經被 git 追蹤或者有殘留檔案，這個時候可以使用以下的方式來解決：
+
+```bash
+git rm -r --cached <子模塊的路徑>
+```
+
 ## 結語🎯
 
 透過 Git Submodule 的方式來管理公共資源倉庫，減少了冗餘的流程以及步驟。可以更精確的控制子模組的版本，也加速了 CI 的部署流程。當然在實作的過程中也遇到了一些問題，最後也找到了解決方案，讓整個流程變得更加順暢了。
