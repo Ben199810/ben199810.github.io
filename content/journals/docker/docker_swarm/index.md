@@ -1,8 +1,8 @@
 ---
-title: "使用 docker swarm 管理 container"
+title: "使用 Docker Swarm 管理 Container"
 date: 2026-06-24T15:14:57+08:00
 draft: false
-description: ""
+description: "分享如何使用 Docker Swarm 在 VM 上管理 Container，使用 Scale 功能快速擴縮 Container，有效的降低了時間以及成本。"
 ---
 
 ## 前言🔖
