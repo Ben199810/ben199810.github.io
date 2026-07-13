@@ -1,7 +1,7 @@
 ---
 title: "Docker Bridge Network 網段範圍限制"
 date: 2026-07-13T14:02:47+08:00
-draft: true
+draft: false
 description: "紀錄在工作上碰到 docker bridge network 網段範圍限制的問題，紀錄解決的方法。"
 tags: ["docker", "network", "bridge network", "docker compose"]
 ---
