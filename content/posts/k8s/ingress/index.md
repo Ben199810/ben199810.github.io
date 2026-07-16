@@ -2,8 +2,8 @@
 title: "Kubernetes 的負載平衡 - Ingress"
 date: 2023-08-06
 draft: false
-description: "Kubernetes 的負載平衡 - Ingress"
-tags: ["kubernetes", "ingress"]
+description: "介紹 Kubernetes 的 Ingress 物件，如何使用 Ingress 建立外部負載平衡器，並搭配 Cloud Armor 與建立內部負載平衡器並使用 Network Endpoint Group (NEG) 來提高效能。"
+tags: ["Kubernetes", "Ingress", "Cloud Armor", "Network Endpoint Group"]
 ---
 
 ## 介紹🔖
