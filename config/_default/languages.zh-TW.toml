@@ -1,0 +1,22 @@
+disabled = false
+languageCode = "zh-tw"
+languageName = "Traditional Chinese"
+weight = 1
+title = "生活・程式・路上"
+
+[params]
+  displayName = "繁體中文"
+  isoCode = "zh-tw"
+  rtl = false
+  dateFormat = "2 January 2006"
+
+[params.author]
+  name = "賴炳維"
+  email = "ben29774583@gmail.com"
+  image = "img/author.jpg"
+  imageQuality = 96
+  headline = "千里之行，始於足下。"
+  bio = "畢業後，進入 devops 領域。目前擔任 SRE 工程師，專注於系統可靠性和自動化。喜歡探索新技術，並致力於提升系統性能和穩定性。"
+  links = [
+    { github = "https://github.com/Ben199810" }
+  ]

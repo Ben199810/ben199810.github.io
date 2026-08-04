@@ -1,0 +1,51 @@
+# -- Main Menu --
+# 主選單顯示在頁面頂部的頁首中。
+# 可接受的參數包括 name、pageRef、page、url、title 和 weight。
+#
+# 最簡單的選單配置是提供：
+# name = 此選單連結顯示的名稱
+# pageRef = 要連結到的頁面或部分的標識符
+#
+# 預設情況下，選單會按字母順序排列。您可以
+# 透過提供 weight 值來覆寫此設定。菜單將
+# 按 weight 從低到高排序。
+
+[[main]]
+  name = "文章"
+  pageRef = "posts"
+  weight = 10
+
+[[main]]
+  name = "日誌"
+  pageRef = "journals"
+  weight = 10
+
+[[main]]
+  name = "生活"
+  pageRef = "lifes"
+  weight = 10
+
+[[main]]
+  name = "閱讀心得"
+  pageRef = "reads"
+  weight = 10
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/Ben199810"
+  weight = 400
+
+# -- Footer Menu --
+# The footer menu is displayed at the bottom of the page, just before
+# the copyright notice. Configure as per the main menu above.
+
+[[footer]]
+  name = "標籤"
+  pageRef = "tags"
+  weight = 10
+
+#  [[footer]]
+#    name = "作者"
+#    pageRef = "authors"
+#    weight = 20
