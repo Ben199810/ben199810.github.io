@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.ping-wei.cc/sitemap.xml
