@@ -1,7 +1,7 @@
 ---
 title: "DNS(Domain Name System)"
 date: 2026-07-22T11:00:55+08:00
-draft: false
+draft: true
 description: ""
 ---
 
