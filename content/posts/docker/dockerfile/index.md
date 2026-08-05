@@ -101,7 +101,7 @@ docker build -t calculator:1.0 .
 
 建構完成以後，可以使用 `docker images` 指令來查看已經建構出來的映像檔，或者使用 Docker Desktop 的 UI 來查看。
 
-![Docker Images](/img/posts/dockerfile/docker-images.png "Docker Images")
+![Docker Images](/img/posts/docker/dockerfile/docker-images.png "Docker Images")
 
 ## 啟動容器🚀
 
@@ -111,7 +111,7 @@ docker build -t calculator:1.0 .
 docker run -p 8080:8080 calculator:1.0
 ```
 
-![Docker Run Calculator](/img/posts/dockerfile/docker-run_calculator.png "Docker Run Calculator")
+![Docker Run Calculator](/img/posts/docker/dockerfile/docker-run_calculator.png "Docker Run Calculator")
 
 ## 總結📝
 
