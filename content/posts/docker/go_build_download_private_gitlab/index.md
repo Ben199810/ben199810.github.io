@@ -10,6 +10,8 @@ description: "在進行 Golang 專案建構時，`go.mod` 可能會需要指定�
 
 在進行 Golang 專案建構時，`go.mod` 可能會需要指定在同一個私有庫中的其他專案作為依賴。在建構的過程中如果遇到無法下載私有庫依賴的問題，可能會導致建構的過程中失敗！
 
+例如以下 `go.mod` 文件中，專案需要依賴在同一個私有 GitLab 中的其他 Golang Module 專案:
+
 ```go
 module project
 
@@ -18,13 +20,13 @@ go 1.24.2
 require (
   github.com/go-sql-driver/mysql v1.9.3
   github.com/redis/go-redis/v9 v9.18.0
-  private.gitlab.com/golibrary/module v1.0.34
+  private.gitlab.com/golibrary/module v1.0.34 // 這是私有 GitLab 中的 Golang Module 專案
 )
 
 require (
-  cloud.google.com/go/auth v0.15.0 // indirect
-  cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
-  cloud.google.com/go/compute/metadata v0.6.0 // indirect
+  cloud.google.com/go/auth v0.15.0
+  cloud.google.com/go/auth/oauth2adapt v0.2.7
+  cloud.google.com/go/compute/metadata v0.6.0
 )
 ```
 
@@ -41,7 +43,7 @@ end
 end
 {{< /mermaid >}}
 
-這是因為私有 GitLab 通常會有防火牆或是需要認證的限制，如果直接使用 `go get` 或 `go mod tidy` Golang 會嘗試去抓公開的 Proxy 伺服器，導致訪問私有 GitLab 失敗，進而導致無法下載私有庫依賴。
+這是因為私有 GitLab 通常會有防火牆或是需要認證的限制，如果直接使用 `go get` 或 `go mod tidy`，Golang 會嘗試去抓公開的 Proxy 伺服器，導致下載私有庫時出現 404 / 410 錯誤。
 
 下面是 Golang 在建構專案時，下載私有庫依賴失敗的流程圖:
 
@@ -165,6 +167,12 @@ CMD ["sh", "-c", "./${SERVICE_NAME} ${SERVICE_CMD}"]
      go env -w GONOSUMDB="private.gitlab.com" && \
      go env -w GONOPROXY="private.gitlab.com"
    ```
+
+   - GOPRIVATE: 指定哪些網域或模組路徑屬於私有
+   - GONOPROXY: 決定哪些模組路徑不要透過公共的 Proxy 伺服器(如 proxy.golang.org)抓取
+   - GONOSUMDB: 決定哪些模組路徑不要送到公共的驗證和校驗和資料庫(sum.golang.org)進行安全檢查
+
+   📌如果有設置 GOPRIVATE，會自動設定 GONOPROXY 與 GONOSUMDB！
 
 2. 配置 Git 以使用帶有認證的 URL：
 
