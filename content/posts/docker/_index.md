@@ -211,7 +211,7 @@ docker run --name mynginx -p 8080:80 -d nginx:1.28
 
 ![Nginx Welcome Page](/img/posts/docker/nginx_welcome.png "Nginx Welcome Page")
 
-### 與容器互動💬
+### 容器互動💬
 
 可以進入容器內部，看看容器內部的檔案結構。使用 `docker exec` 指令來進入容器，這裡會使用 `-it` 選項來啟動一個互動式的終端機，並且使用 `sh` 作為容器內部的 shell，這樣就可以在容器內部執行指令了。
 
@@ -231,9 +231,11 @@ ls -al /etc/nginx
 
 ![Docker Check Nginx Index](/img/posts/docker/nginx_index.png "Docker Check Nginx Index")
 
-### 修改容器內部的檔案📝
+### 掛載卷📝
 
-如果想要修改容器內部的檔案，可以採用掛載卷(volume)的方式，將本機的目錄掛載到容器內部，這樣就可以直接在本機修改檔案，容器內部也會同步更新。
+這裡的範例會修改 Nginx 的歡迎頁面，將原本的歡迎頁面修改成自訂的內容！
+
+修改的方式採用掛載卷(volume)的方式，將本機的目錄掛載到容器內部，這樣就可以直接在本機修改檔案，容器內部也會同步更新。
 
 例如，將本機的 `./html` 目錄掛載到容器的 `/usr/share/nginx/html` 目錄：
 
@@ -268,6 +270,16 @@ docker run --name mynginx -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html -d ngi
 ```
 
 ![Docker Modify Nginx Index](/img/posts/docker/nginx_index_modified.png "Docker Modify Nginx Index")
+
+### 容器日誌📜
+
+訪問 Nginx 的容器時，Docker 其實都有在記錄日誌，這些日誌可以使用 `docker logs` 指令來查看。
+
+```bash
+docker logs mynginx
+```
+
+![Docker Logs Nginx](/img/posts/docker/nginx_logs.png "Docker Logs Nginx")
 
 ### 停止容器🛑
 
