@@ -10,21 +10,21 @@ description: "在進行 Golang 專案建構時，`go.mod` 可能會需要指定�
 
 在進行 Golang 專案建構時，`go.mod` 可能會需要指定在同一個私有庫中的其他專案作為依賴。在建構的過程中如果遇到無法下載私有庫依賴的問題，可能會導致建構的過程中失敗！
 
-```
+```go
 module project
 
 go 1.24.2
 
 require (
-	github.com/go-sql-driver/mysql v1.9.3
-	github.com/redis/go-redis/v9 v9.18.0
-	private.gitlab.com/golibrary/module v1.0.34
+  github.com/go-sql-driver/mysql v1.9.3
+  github.com/redis/go-redis/v9 v9.18.0
+  private.gitlab.com/golibrary/module v1.0.34
 )
 
 require (
-	cloud.google.com/go/auth v0.15.0 // indirect
-	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
-	cloud.google.com/go/compute/metadata v0.6.0 // indirect
+  cloud.google.com/go/auth v0.15.0 // indirect
+  cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
+  cloud.google.com/go/compute/metadata v0.6.0 // indirect
 )
 ```
 
