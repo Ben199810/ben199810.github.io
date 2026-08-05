@@ -211,6 +211,64 @@ docker run --name mynginx -p 8080:80 -d nginx:1.28
 
 ![Nginx Welcome Page](/img/posts/docker/nginx_welcome.png "Nginx Welcome Page")
 
+### 與容器互動💬
+
+可以進入容器內部，看看容器內部的檔案結構。使用 `docker exec` 指令來進入容器，這裡會使用 `-it` 選項來啟動一個互動式的終端機，並且使用 `sh` 作為容器內部的 shell，這樣就可以在容器內部執行指令了。
+
+```bash
+docker exec -it mynginx sh
+```
+
+進入容器以後，可以觀察 Nginx 的設定檔案，通常會在 `/etc/nginx` 目錄下，這裡可以看到 Nginx 的設定檔案 `nginx.conf`，以及其他的設定檔案。
+
+```bash
+ls -al /etc/nginx
+```
+
+![Docker Check Nginx Config](/img/posts/docker/nginx_config.png "Docker Check Nginx Config")
+
+預設的設定檔可以看到 Nginx 預設的歡迎頁面是位於 `/usr/share/nginx/html` 目錄下的 `index.html`，這裡可以看到 Nginx 的歡迎頁面。
+
+![Docker Check Nginx Index](/img/posts/docker/nginx_index.png "Docker Check Nginx Index")
+
+### 修改容器內部的檔案📝
+
+如果想要修改容器內部的檔案，可以採用掛載卷(volume)的方式，將本機的目錄掛載到容器內部，這樣就可以直接在本機修改檔案，容器內部也會同步更新。
+
+例如，將本機的 `./html` 目錄掛載到容器的 `/usr/share/nginx/html` 目錄：
+
+```bash
+docker run --name mynginx -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html -d nginx:1.28
+```
+
+本機電腦 html 目錄下增加一個 `index.html` 檔案，內容如下:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>測試修改 Nginx 首頁</title>
+    <style>
+      html {
+        color-scheme: light dark;
+      }
+      body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>已經成功修改了！</h1>
+    <p>成功修改以後也可以跟容器交互，看看內部的檔案有沒有變化</p>
+  </body>
+</html>
+```
+
+![Docker Modify Nginx Index](/img/posts/docker/nginx_index_modified.png "Docker Modify Nginx Index")
+
 ### 停止容器🛑
 
 如果要停止正在運行的容器，可以使用 `docker stop` 指令來停止容器。或者者使用 Docker Desktop 的 UI 來停止容器。
