@@ -1,11 +1,12 @@
 ---
-title: "Ansible"
+title: "Ansible - 輕鬆管理自動化部署"
 date: 2026-07-29T16:49:16+08:00
-draft: true
-description: ""
+draft: false
+tags: ["Ansible"]
+description: "Ansible 是一個幫助自動化 IT 的基礎建設工具。它可以配置系統、部署軟體以及協調更複雜的 IT 任務，可以大幅度的減少重複性工作，提高效率。"
 ---
 
-## 簡介
+## 簡介🔖
 
 Ansible 是一個幫助自動化 IT 的基礎建設工具。它可以配置系統、部署軟體以及協調更複雜的 IT 任務，可以大幅度的減少重複性工作，提高效率。更棒的是，Ansible 是一個無代理的工具，這意味著它不需要在目標機器上安裝任何軟體，只需要透過 SSH 連線即可進行操作。
 
@@ -15,7 +16,7 @@ Ansible 使用 YAML 語言來描述自動化任務，非常容易閱讀和理解
 
 Github Repository: [ansible_practice](https://github.com/Ben199810/ansible_practice)
 
-## 環境建置
+## 環境建置📌
 
 - macOS 26.1
 - Docker Engine 29.0.2
@@ -23,7 +24,7 @@ Github Repository: [ansible_practice](https://github.com/Ben199810/ansible_pract
 - Docker Compose version v2.40.3-desktop.1
 - ubuntu:22.04
 
-### 管理節點
+### 管理節點🖥️
 
 先使用 Dockerfile 建立 Ubuntu 22.04 的管理節點(Managed Node)，管理節點的意思就是受管理的節點，控制節點(Controller Node)會透過 SSH 連線到管理節點，並執行 Ansible 的任務。
 
@@ -44,7 +45,7 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-注意: 本文章在 Dockerfile 中，更改了 SSH 的設定，允許 root 使用密碼登入，這在實務上是不建議的，請不要在生產環境中使用。
+⚠️ 注意: 本文章在 Dockerfile 中，更改了 SSH 的設定，允許 root 使用密碼登入，這在實務上是不建議的，請不要在生產環境中使用。
 
 使用 docker-compose.yml 建立兩個 Ubuntu 22.04 的管理節點，並且將它們的 SSH port 映射到本地端的 2221 與 2222。
 
@@ -79,7 +80,7 @@ networks:
 
 ![managed_nodes_up](/img/posts/ansible/managed_nodes_up.png "managed_nodes_up")
 
-### 控制節點
+### 控制節點🖥️
 
 使用 Dockerfile 建立 Ubuntu 22.04 的控制節點(Controller Node)，控制節點的意思就是負責管理其他節點的節點。
 
@@ -158,7 +159,7 @@ services:
 
 ![controller_node_up](/img/posts/ansible/controller_node_up.png "controller_node_up")
 
-## 執行 Ansible Playbook
+## 執行 Ansible Playbook🚀
 
 上述的環境建置完成後，本機電腦環境中已經有三個 Docker 容器，分別是兩個管理節點與一個控制節點。接下來可以透過控制節點執行 Ansible Playbook，對管理節點進行操作。
 
@@ -202,3 +203,7 @@ docker exec -it web2 nginx -v
 docker exec -it web1 service nginx status
 docker exec -it web2 service nginx status
 ```
+
+## 結論📝
+
+透過上述的練習，可以知道有多台管理節點的情況下，Ansible 可以同時對多台管理節點進行操作，這樣可以大幅度的減少重複性工作，提高效率。尤其是在務實上需要對大量的伺服器進行操作時，Ansible 可以幫助我們節省大量的時間與人力成本。
