@@ -1,0 +1,7 @@
+{
+    "markdownlint.config": {
+        "MD033": {
+            "allowed_elements": [ "ul", "ol", "li", "strong", "div", "script" ]
+        }
+    }
+}
