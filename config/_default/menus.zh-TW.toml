@@ -27,7 +27,7 @@
 
 [[main]]
   name = "關於我"
-  pageRef = "about"
+  pageRef = "abouts"
   weight = 10
 
 [[main]]
