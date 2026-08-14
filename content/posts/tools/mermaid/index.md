@@ -1,5 +1,5 @@
 ---
-title: "Mermaid 建立視覺化圖表"
+title: "Mermaid 建立視覺化圖表，進一步提升專案管理與系統設計效率"
 date: 2026-07-22T09:49:55+08:00
 draft: false
 tags: ["Mermaid"]
