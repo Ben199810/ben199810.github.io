@@ -1,7 +1,8 @@
 ---
 title: "賽爾號 | 作戰實驗室攻略"
 date: 2026-08-15T20:55:45+08:00
-draft: true
+draft: false
+tags: ["賽爾號"]
 description: ""
 ---
 
