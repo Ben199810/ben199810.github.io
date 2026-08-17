@@ -26,22 +26,6 @@
   weight = 10
 
 [[main]]
-  name = "遊戲"
-  weight = 10
-
-[[main]]
-  name = "賽爾號"
-  parent = "遊戲"
-  pageRef = "games/seers"
-  weight = 10
-
-[[main]]
-  name = "其他遊戲"
-  parent = "遊戲"
-  pageRef = "games/others"
-  weight = 20
-
-[[main]]
   name = "關於我"
   pageRef = "abouts"
   weight = 10
