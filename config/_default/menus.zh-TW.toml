@@ -11,7 +11,7 @@
 # 按 weight 從低到高排序。
 
 [[main]]
-  name = "文章"
+  name = "技術文章"
   pageRef = "posts"
   weight = 10
 
