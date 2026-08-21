@@ -2,21 +2,35 @@
 title: "Elastic Data Streams 自動化管理 Index 的生命週期"
 date: 2026-01-21T11:45:37+08:00
 draft: false
-tags: ["elastic","data streams","index lifecycle management","ilm"]
+tags: ["Elastic", "Data Streams"]
 description: ""
 ---
 
 ## 前言🔖
 
-最近有幫公司重新建立一套 Elastic 的 Log 系統，之前的團隊依賴 VM 內部的排程任務來做 Index 的刪除與管理，這樣的方式雖然能達到目的，但卻不夠彈性且容易出錯。後來發現 Elastic 官方提供的 Data Streams 功能，可以自動化管理 Index 的生命週期，讓我們能更輕鬆地維護 Log 系統。
+Elastic是開發過程中常常幫助收集系統日誌(log)並且分析根本錯誤原因的好用工具之一，大量的日誌存放與管理，考驗運為團隊的經驗以及能力，Elastic其實能夠使用資料流(data streams)管理龐大的索引(index)資訊，減少運維團隊的負擔。
 
-## Data Streams 簡介📃
+## Data Streams📃
 
-Data Streams 是 Elastic Stack 中的一個功能，主要用於處理時間序列資料，如日誌、指標等。它允許我們將資料自動分割成多個 Index，並根據設定的生命週期策略自動管理這些 Index 的刪除和轉換。下面會開始介紹如何使用 Data Streams 來自動化管理 Index 的生命週期。
+Data Streams是 Elastic中的一個功能，主要用於處理時間序列資料，如日誌、指標等。它允許我們將資料自動分割成多個 索引，並根據設定的生命週期策略自動管理這些索引的刪除和轉換。
 
-## 建立 Lifecycle Policy🛠️
+Data Streams可以拆分成兩個部分來看，分別是政策(policy)與模板(template)。這兩個重要的部分，是組成資料流重要的核心。
 
-第一步，我們需要建立一個 Index Lifecycle Management (ILM) 策略，來定義 Index 的生命週期。以下是一個範例策略，設定 Index 在 30 天後刪除：
+## Policy📌
+
+### Index Lifecycle Policy
+
+第一步，我們需要建立一個索引生命週期(index lifecycle management)，以下是一個索引生命週期的範例:
+
+在熱(hot)資料處理階段，設定了幾個 actions，其中 rollover的主要功能是索引達到特定的條件，會自動建立一個新的索引存放新寫入的資料。
+
+範例中設定了兩個條件一個是索引資料大小超過 50gb，一個是索引超過 7天，只要到達其中一個條件，就會建立一個新的索引。
+
+在暖(warm)資料處理階段，主要是將資料收攏釋出硬碟的存儲空間。forcemerge的功能是減少索引底層的段(segment)數量，`"max_num_segments": 1` 代表將該索引內所有的段，強行合併成 1個單一的段。shrink主要是減少索引的分片數量，可以降低叢集管理大量分片的負擔。
+
+⭐️ 補充: 為什麼會使用 forcemerge而不是 merge，因為在 elastic中，當刪除或更新文件時，資料並不會立刻從硬碟上消失，而是會被標記為「已刪除」。只有執行 forcemerge，系統才會真正把這些被刪除的資料從硬碟刪除，釋放磁碟空間。
+
+最後，刪除(delete)資料處理階段，會刪除叢集裡的快照索引，負責把之前建立的快照和索引徹底刪除。
 
 ```json
 PUT _ilm/policy/my-lifecycle-policy
@@ -24,17 +38,31 @@ PUT _ilm/policy/my-lifecycle-policy
   "policy": {
     "phases": {
       "hot": {
+        "min_age": "0ms",
         "actions": {
           "rollover": {
-            "max_size": "50gb",
-            "max_age": "7d"
+            "max_age": "7d",
+            "max_primary_shard_size": "50gb"
+          }
+        }
+      },
+      "warm": {
+        "min_age": "2d",
+        "actions": {
+          "forcemerge": {
+            "max_num_segments": 1
+          },
+          "shrink": {
+            "number_of_shards": 1
           }
         }
       },
       "delete": {
-        "min_age": "30d",
+        "min_age": "7d",
         "actions": {
-          "delete": {}
+          "delete": {
+            "delete_searchable_snapshot": true
+          }
         }
       }
     }
@@ -42,25 +70,41 @@ PUT _ilm/policy/my-lifecycle-policy
 }
 ```
 
-如果公司內部有建立 Elastic 的 API Domain，可以透過 API Domain 來執行上述的指令。例如：
+如果有建立可以訪問 Elastic 的網址，可以透過網址來執行的 API 語法新增政策，例如：
 
 ```bash
-curl -X PUT "https://your-api-domain/_ilm/policy/my-lifecycle-policy" -H 'Content-Type: application/json' -d'
+curl -X PUT "https://your-api-domain/_ilm/policy/my-lifecycle-policy" \
+-H 'Content-Type: application/json' \
+-d'
 {
   "policy": {
     "phases": {
       "hot": {
+        "min_age": "0ms",
         "actions": {
           "rollover": {
-            "max_size": "50gb",
-            "max_age": "7d"
+            "max_age": "7d",
+            "max_primary_shard_size": "50gb"
+          }
+        }
+      },
+      "warm": {
+        "min_age": "2d",
+        "actions": {
+          "forcemerge": {
+            "max_num_segments": 1
+          },
+          "shrink": {
+            "number_of_shards": 1
           }
         }
       },
       "delete": {
-        "min_age": "30d",
+        "min_age": "7d",
         "actions": {
-          "delete": {}
+          "delete": {
+            "delete_searchable_snapshot": true
+          }
         }
       }
     }
@@ -68,9 +112,23 @@ curl -X PUT "https://your-api-domain/_ilm/policy/my-lifecycle-policy" -H 'Conten
 }'
 ```
 
-## 建立 Component Template🔧
+新增完政策以後，代表我們已經規劃好資料流了，當然我們可以訂定很多不同的政策，例如: 保留 15 天或保留 10 天的政策。接著我們需要將定義好的政策套用在索引上。
 
-接下來，我們需要建立一個 Component Template，來定義 Data Stream 的 Mapping 和 Settings。以下是一個範例：
+## Template📌
+
+在 Elasticsearch 中，模板的核心目的是「定義自動化的規格」。當系統有新資料寫入、需要建立新索引時，它會自動檢查有沒有匹配的模板。如果有，就會依照模板規定的設定(settings)和欄位格式(mappings)把索引建立出來，不需要每次手動設定。
+
+模板分成了兩個層級，元件模板(component template)與索引模板(index template)，我們可以想像兩個模板之間的關係就像是積木與樂高的概念。
+
+### Component Template
+
+一句話定義：它是「局部、可重複使用的配置片段」，就像是樂高積木，或者程式碼中的 Class(類別) / Module(模組)。它本身不能直接拿來建立索引，它是被設計來給別人「組合」用的。
+
+常見的應用是把通用的配置獨立成不同的元件模板，例如:
+
+- component_setting_standard: 專門定義通用的基礎設定(如 Shard 數量、Replica 數量、ILM Policy 綁定)
+- component_mapping_k8s: 專門定義 K8s日誌專用的欄位格式(如 pod_name, namespace)
+- component_mapping_security: 專門定義資安稽核專用的欄位格式(如 src_ip, dst_ip)
 
 ```json
 PUT _component_template/my-logs-settings
@@ -96,7 +154,7 @@ PUT _component_template/my-logs-mappings
 }
 ```
 
-## 建立 Index Template📂
+### Index Template
 
 接著，我們需要建立一個 Index Template，來將 Component Template 套用到 Data Stream 上。以下是一個範例：
 
