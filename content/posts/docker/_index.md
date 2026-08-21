@@ -12,54 +12,50 @@ Docker 是一個開源的容器化平台，可以讓開發者將應用程式以�
 
 早期一個應用程式需要在虛擬機上運行，除了執行檔案以外，可能還需要配置服務的設定檔案、環境變數等，例如下圖: App_A 應用程式需要在虛擬機器上配置 Env_A、Env_B、Config_A，才能啟動應用程式二進制執行檔案，讓應用程式可以正常運行。App_B 應用程式需要在虛擬機器上配置 Env_B，才能啟動應用程式二進制執行檔案，讓應用程式可以正常運行。
 
+<!-- prettier-ignore -->
 {{< mermaid >}}
 flowchart LR
-subgraph VM
-App_1[App_A 二進制執行檔案]
-App_2[App_B 二進制執行檔案]
-Env_1[環境變數A]
-Env_2[環境變數B]
-Config_1[設定檔案A]
+    subgraph VM
+        App_1[App_A 二進制執行檔案]
+        App_2[App_B 二進制執行檔案]
+        Env_1[環境變數A]
+        Env_2[環境變數B]
+        Config_1[設定檔案A]
 
-App_1 -.- Env_1
-App_1 -.- Env_2
-App_1 -.- Config_1
-
-App_2 -.- Env_2
+        App_1 -.- Env_1
+        App_1 -.- Env_2
+        App_1 -.- Config_1
+        App_2 -.- Env_2
+    end
 
 classDef success fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
-
 class App_1,App_2 success
-
-end
 {{< /mermaid >}}
 
 好一點的部署流程可能會自動化這些設定檔案和環境變數的配置，但是如果是運維人員需要手動配置，可能就會因為疏忽而漏掉某些設定或環境變數，導致應用程式無法正常運行。
 
 也可能會因為特定的環境變數造成應用程式的行為不一致，導致無法運行。例如: 紅色的 Env_B，會造成 App_A 應用程式無法正常運行，這時候就需要運維人員去排查問題，找出是哪個環境變數造成的問題，這樣就會浪費很多時間。
 
+<!-- prettier-ignore -->
 {{< mermaid >}}
 flowchart LR
-subgraph VM
-App_1[App_A 二進制執行檔案]
-App_2[App_B 二進制執行檔案]
-Env_1[環境變數A]
-Env_2[環境變數B]
-Config_1[設定檔案A]
+    subgraph VM
+        App_1[App_A 二進制執行檔案]
+        App_2[App_B 二進制執行檔案]
+        Env_1[環境變數A]
+        Env_2[環境變數B]
+        Config_1[設定檔案A]
 
-App_1 -.- Env_1
-App_1 -.- Env_2
-App_1 -.- Config_1
-
-App_2 -.- Env_2
+        App_1 -.- Env_1
+        App_1 -.- Env_2
+        App_1 -.- Config_1
+        App_2 -.- Env_2
+    end
 
 classDef success fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
 classDef danger fill:#ffebee,stroke:#c62828,color:#b71c1c
-
 class App_1,Env_2 danger
 class App_2 success
-
-end
 {{< /mermaid >}}
 
 多數時候 Env 的名稱會相同但值可能不同。例如: App_A 使用 Env_B，值為 UTC，而 App_B 使用 Env_B，值為 TZ。可以看到兩個應用程式使用了一樣的 Env 是代表著時區的設定，但是值卻不同。如果部署 App_B 的時候調整了 Env_B 的值，如果 App_A 突然需要重新啟動時，就會因為 Env_B 的值被改變而導致 App_A 可能在正常的初始化階段就因為時區的設定不正確而無法正常運行。
@@ -68,69 +64,67 @@ end
 
 例如: 下圖中，App_A 應用程式和 App_B 應用程式分別在各自的容器中運行，而且代表時區的 Env_B 在各自的容器中有不同的值，這樣就不會互相影響，確保應用程式可以正常運行。
 
+<!-- prettier-ignore -->
 {{< mermaid >}}
 flowchart LR
-subgraph VM
+    subgraph VM
+        subgraph Container_A
+            App_1[App_A 二進制執行檔案]
+            Env_1[環境變數A]
+            Env_2[環境變數B]
+            Config_1[設定檔案A]
+            App_1 -.- Env_1
+            App_1 -.- Env_2
+            App_1 -.- Config_1
+        end
 
-subgraph Container_A
-App_1[App_A 二進制執行檔案]
-Env_1[環境變數A]
-Env_2[環境變數B]
-Config_1[設定檔案A]
-App_1 -.- Env_1
-App_1 -.- Env_2
-App_1 -.- Config_1
-end
-
-subgraph Container_B
-App_2[App_B 二進制執行檔案]
-Env_3[環境變數B]
-App_2 -.- Env_3
-end
+        subgraph Container_B
+            App_2[App_B 二進制執行檔案]
+            Env_3[環境變數B]
+            App_2 -.- Env_3
+        end
+    end
 
 classDef success fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
 classDef normal fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
-
 class App_1,App_2 success
 class Env_2,Env_3 normal
-
-end
 {{< /mermaid >}}
 
 除此之外，在共同協作的開發過程中最容易遇到的問題就是為什麼你的電腦環境可以運行，而我的電腦環境不行，這是因為每個開發者的電腦環境可能都不一樣，導致應用程式在不同的環境中運行結果不一致。這點就跟上述提到問題類似，如果可以在電腦上使用 Docker 來啟動容器，就可以隔離每個開發者電腦的環境差異。
 
 例如: 下圖中，同事的電腦不管是直接執行二進制執行檔案，還是使用容器來執行二進制執行檔案，都可以正常運行。而我的電腦直接執行二進制執行檔案會造成無法運行的原因，就是因為我的電腦環境中缺少了某些環境變數，導致應用程式無法正常運行。但是如果使用容器來執行二進制執行檔案，就可以確保應用程式在任何人的電腦環境中都能以相同的方式運行。
 
+<!-- prettier-ignore -->
 {{< mermaid >}}
 flowchart
-subgraph 同事的電腦
-Eev_1[環境變數A]
-Eev_2[環境變數B]
-App_1[App_A 二進制執行檔案]
-App_1 -.- Eev_1
-App_1 -.- Eev_2
-subgraph Container_A[Container]
-Env_3[環境變數A]
-Env_4[環境變數B]
-App_2[App_A 二進制執行檔案]
-App_2 -.- Env_3
-App_2 -.- Env_4
-end
-end
+    subgraph 同事的電腦
+        Eev_1[環境變數A]
+        Eev_2[環境變數B]
+        App_1[App_A 二進制執行檔案]
+        App_1 -.- Eev_1
+        App_1 -.- Eev_2
+            subgraph Container_A[Container]
+                Env_3[環境變數A]
+                Env_4[環境變數B]
+                App_2[App_A 二進制執行檔案]
+                App_2 -.- Env_3
+                App_2 -.- Env_4
+            end
+    end
 
-subgraph 我的電腦
-subgraph Container_B[Container]
-Env_5[環境變數A]
-Env_6[環境變數B]
-App_3[App_A 二進制執行檔案]
-App_3 -.- Env_5
-App_3 -.- Env_6
-end
-end
+    subgraph 我的電腦
+        subgraph Container_B[Container]
+            Env_5[環境變數A]
+            Env_6[環境變數B]
+            App_3[App_A 二進制執行檔案]
+            App_3 -.- Env_5
+            App_3 -.- Env_6
+        end
+    end
 
 classDef gray fill:#f5f5f5,stroke:#9e9e9e,color:#616161
 classDef yellow fill:#fff9c4,stroke:#fbc02d,color:#f57f17
-
 class 同事的電腦,我的電腦 gray
 class Container_A,Container_B yellow
 {{< /mermaid >}}
