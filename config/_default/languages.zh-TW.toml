@@ -2,7 +2,7 @@ disabled = false
 languageCode = "zh-tw"
 languageName = "Traditional Chinese"
 weight = 1
-title = "生活・程式・路上"
+title = "Ben's 探索遊記"
 
 [params]
   displayName = "繁體中文"

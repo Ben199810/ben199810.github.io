@@ -45,7 +45,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
 
 # 首頁設定
 [homepage]
-  layout = "hero" # 首頁佈局選項：page、profile、hero、card、background、custom
+  layout = "background" # 首頁佈局選項：page、profile、hero、card、background、custom
   #homepageImage = "IMAGE.jpg" # 用於：hero 和 card
   showRecent = true
   showRecentItems = 9
