@@ -2,7 +2,7 @@
 title: "GCE 擴充永久磁碟大小"
 date: 2026-03-31T09:10:39+08:00
 draft: false
-tags: ["GCP", "GCE", "Disk", "VM", "Google Cloud"]
+tags: ["GCP", "GCE", "Disk"]
 description: "分享在 GCE 上增加永久磁碟容量的實作步驟，包含增加磁碟容量以及讓作業系統認識新的磁碟容量的過程。本文將介紹如何使用 gcloud CLI 或 Terraform 來增加磁碟容量，以及如何使用 df、lsblk 和 parted 等指令來確認磁碟的狀態，最後使用 xfs_growfs 或 resize2fs 指令來擴增磁碟大小。"
 ---
 

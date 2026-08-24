@@ -2,7 +2,7 @@
 title: "GCE 永久磁碟掛載實作過程紀錄"
 date: 2026-01-20T16:25:52+08:00
 draft: false
-tags: ["gcp","persistent disk"]
+tags: ["GCP", "GCE", "Disk"]
 description: ""
 ---
 
