@@ -19,13 +19,13 @@ description: ""
   <li>監控告警與可觀測性
     <ol>
       <li>與 RD 協作，使用 API 製作客製化監控指標，<strong>提升系統可觀測性</strong></li>
+      <li>導入 Grafana Provisioning，實現 Grafana 儀表板的自動化部署與版本控制，<strong>提升監控面板管理效率</strong></li>
     </ol>
   </li>
   <li>SRE / DevOps 實務操作
     <ol>
       <li>設計並規劃雲地混合 CI/CD 流程，<strong>大幅減少 80% 部署更新時間</strong></li>
       <li>設計優化 Ansible Playbook Role，減少大量且分散的重複程式碼，減少運維管理複雜度，<strong>提升 50% 服務上線流程與建置效率</strong></li>
-      <li>導入 Grafana Provisioning，實現 Grafana 儀表板的自動化部署與版本控制，<strong>提升監控面板管理效率</strong></li>
     </ol>
   </li>
 </ul>
