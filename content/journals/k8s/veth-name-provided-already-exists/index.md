@@ -3,8 +3,9 @@ title: "解決 Kubernetes Pod 網路衝突：container veth name provided (eth0)
 date: 2023-09-17
 draft: false
 description: "記錄在使用 StatefulSet 部署時遇到的 Pod 網路介面衝突問題，以及如何透過正確的 Pod 生命週期管理來解決此問題"
-tags: ["kubernetes", "pod", "node", "cni"]
+tags: ["Kubernetes", "CNI"]
 ---
+
 ## 前言
 
 最近公司專案轉雲端架構時，由於服務只能啟用一個 pod 提供線上服務的運作，因此也選擇使用 `statefulSet` 部署服務，在這過程中發現的問題。
