@@ -6,13 +6,15 @@ tags: ["Ansible"]
 description: ""
 ---
 
-## 前言🔖
+## 前言 🔖
 
 部署時，需要將版本控制文件同步到伺服器上，最常使用到 Synchroize 模組來幫助我。
 
 例如: 同步 Nginx 伺服器上的 Config 設定路由規則等...
 
-## 範例📌
+## 範例 📌
+
+### 同步檔案與目錄
 
 通常會更新 Nginx 的目標檔案與目錄總共有兩個 `/etc/nginx/nginx.conf`、`/etc/nginx/conf.d`。
 
@@ -21,6 +23,7 @@ src 代表來源檔案的路徑，dest 代表目標檔案的路徑，還可以�
 ⭐️ 補充: 同步 conf.d 目錄時，src 的路徑需要在最後加上 `/`，如果沒有加上 / 會變成在伺服器上看到 `/etc/nginx/conf.d/conf.d` 目標的目錄底下又新增了一個目錄，/ 的作用是告訴 synchronize 模組，同步 conf.d 目錄底下的所有檔案，而不是目錄本身。
 
 ```yaml
+# 同步 Nginx 設定檔案
 - name: Sync Nginx configuration
   become: true
   ansible.posix.synchronize:
@@ -29,7 +32,7 @@ src 代表來源檔案的路徑，dest 代表目標檔案的路徑，還可以�
     rsync_opts:
       - "--chown=root:root"
       - "--chmod=0644"
-
+# 同步 Nginx conf.d 目錄
 - name: Sync Nginx conf.d
   become: true
   ansible.posix.synchronize:
@@ -58,3 +61,21 @@ src 代表來源檔案的路徑，dest 代表目標檔案的路徑，還可以�
     state: reloaded
   when: nginx_test.rc == 0
 ```
+
+### 排除不想要同步的檔案與目錄
+
+有時候，在進行同步時，可能不希望某些檔案或目錄被同步到目標伺服器上，這時就可以使用 `rsync_opts` 配置排除規則。
+
+例如，在部署 Grafana 時，除了正式站需要 alerting 目錄的內容外，其他環境可能不需要同步這個目錄，這時就可以使用 `rsync_opts` 排除該目錄:
+
+```yaml
+- name: Sync Grafana configuration excluding alerting directory
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/templates/provisioning/"
+    dest: /etc/grafana/
+    rsync_opts:
+      - "{{ '--exclude=alerting/' if env != 'production' else '' }}"
+      - "{{ '--exclude=nodeExporter.json' if env != 'production' else '' }}"
+```
+
+可以看到 `--exclude=alerting` 只有在 `env` 不是 `production` 的情況下才會生效。
