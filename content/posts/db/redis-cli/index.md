@@ -9,9 +9,9 @@ description: ""
 
 Redis CLI 是用來與 Redis 伺服器進行互動的命令行工具。它允許用戶執行各種 Redis 命令，管理數據庫，並進行測試和調試。這篇文章主要會記錄我在日常工作常用的 Redis CLI 命令和技巧。
 
-## 基本命令 📌
+## 基本命令 ⌨️
 
-### 連接到 Redis 伺服器
+### 連接到 Redis 伺服器 📌
 
 最一開始，我們需要跟 Redis 建立連接以後才可以操作：
 
@@ -27,7 +27,7 @@ redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}
 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} -c
 ```
 
-### 鍵
+### 鍵 📌
 
 Redis 是鍵值對（key-value）的數據庫，每個鍵都是唯一的，並且可以對應一個值。通常，我們會使用一些基本命令來操作鍵，例如：
 
@@ -95,3 +95,17 @@ Redis 是鍵值對（key-value）的數據庫，每個鍵都是唯一的，並�
     ```
 
     如果返回 `string`，表示鍵的類型是字符串；如果返回 `none`，表示鍵不存在。
+
+### 掃描 📌
+
+掃描命令用於遍歷數據庫中的鍵，與 `KEYS` 命令不同的是，`SCAN` 會透過游標（cursor）分批返回 Key，這樣就不會因為一次性返回大量 Key 造成其他應用程式的讀寫請求阻塞，進而導致客戶端連線超時、斷線等問題。
+
+```bash
+SCAN 0 MATCH user:* COUNT 10
+```
+
+掃描也可以幫助我們在不影響 Redis 性能的情況下，進行 Key 的操作與管理。例如，我們可以結合 `SCAN` 命令和其他命令來批量刪除符合特定模式的鍵：
+
+```bash
+redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} --scan --pattern "test:user:*" | xargs -L 100 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} DEL
+```
