@@ -11,7 +11,7 @@ Redis CLI 是用來與 Redis 伺服器進行互動的命令行工具。它允許
 
 ## 基本命令 ⌨️
 
-### 連接到 Redis 伺服器 📌
+### Connecting to Redis 📌
 
 最一開始，我們需要跟 Redis 建立連接以後才可以操作：
 
@@ -27,7 +27,7 @@ redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}
 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} -c
 ```
 
-### 鍵 📌
+### Keys 📌
 
 Redis 是鍵值對（key-value）的數據庫，每個鍵都是唯一的，並且可以對應一個值。通常，我們會使用一些基本命令來操作鍵，例如：
 
@@ -96,7 +96,7 @@ Redis 是鍵值對（key-value）的數據庫，每個鍵都是唯一的，並�
 
     如果返回 `string`，表示鍵的類型是字符串；如果返回 `none`，表示鍵不存在。
 
-### 掃描 📌
+### Scanning Keys 📌
 
 掃描命令用於遍歷數據庫中的鍵，與 `KEYS` 命令不同的是，`SCAN` 會透過游標（cursor）分批返回 Key，這樣就不會因為一次性返回大量 Key 造成其他應用程式的讀寫請求阻塞，進而導致客戶端連線超時、斷線等問題。
 
@@ -109,3 +109,13 @@ SCAN 0 MATCH user:* COUNT 10
 ```bash
 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} --scan --pattern "test:user:*" | xargs -L 100 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} DEL
 ```
+
+### Client List 📌
+
+Redis 提供了 `CLIENT LIST` 命令來查看當前連接到 Redis 伺服器的客戶端列表。這對於排查連接問題和監控客戶端連接非常有用：
+
+```bash
+CLIENT LIST
+```
+
+該命令會返回每個客戶端的詳細信息，包括 IP 地址、端口、連接狀態、最後一次活動時間等。
