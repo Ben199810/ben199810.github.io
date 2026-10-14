@@ -21,6 +21,16 @@
   weight = 10
 
 [[main]]
+  name = "遊戲"
+  pageRef = "games"
+  weight = 10
+
+[[main]]
+  name = "旅遊"
+  pageRef = "travels"
+  weight = 10
+
+[[main]]
   name = "閱讀心得"
   pageRef = "reads"
   weight = 10
