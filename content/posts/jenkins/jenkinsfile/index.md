@@ -136,3 +136,27 @@ pipeline {
 這樣帶來的好處是可以快速了解每次構建的關鍵信息，方便排查問題和追蹤版本。也可以快速地透過篩選 Jenkins 構建記錄來找到特定的構建記錄，總之好處多多。
 
 !["Edit Build Information"](/img/posts/jenkins/jenkinsfile/edit_build_info.png "Edit Build Information")
+
+## 捨棄舊建置📌
+
+Jenkins 可以在 Pipeline UI 中配置「捨棄舊建置」策略，可以保留建構歷史的最新幾個版本，或者保留一定天數內的建構，從而避免磁碟空間被舊建置佔滿。
+
+!["捨棄舊建置"](/img/posts/jenkins/jenkinsfile/build_discarder.png "捨棄舊建置")
+
+這個策略也可以在 Jenkinsfile 中通過 `buildDiscarder` 來配置，我習慣寫在 Jenkinsfile 中，因為有一些 CI 我集成了比較多的服務。可以保留比較多的建置歷史跟天數，確保重要的構建記錄不會被過早刪除。
+
+```groovy
+pipeline {
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '200', daysToKeepStr: '14', artifactNumToKeepStr: '50', artifactDaysToKeepStr: '14', removeLastBuild: false))
+  }
+  stages {
+    stage('Example') {
+      steps {
+        echo "Hello, World!"
+      }
+    }
+  }
+}
+```
