@@ -144,7 +144,6 @@ Jenkins 可以在 Pipeline UI 中配置「捨棄舊建置」策略，可以保�
 !["捨棄舊建置"](/img/posts/jenkins/jenkinsfile/build_discarder.png "捨棄舊建置")
 
 這個策略也可以在 Jenkinsfile 中通過 `buildDiscarder` 來配置，我習慣寫在 Jenkinsfile 中，因為有一些 CI 我集成了比較多的服務。可以保留比較多的建置歷史跟天數，確保重要的構建記錄不會被過早刪除。
-
 ```groovy
 pipeline {
   agent any
@@ -155,6 +154,34 @@ pipeline {
     stage('Example') {
       steps {
         echo "Hello, World!"
+      }
+    }
+  }
+}
+```
+
+## Credentials📌
+
+在 Jenkins 中，我們可以使用 Credentials 來安全的存儲和管理敏感信息，例如 API 金鑰、密碼、SSH 金鑰等，避免將這些信息硬編碼在 Jenkinsfile 中。而且在 CI 流程中調用 Credentials 時，會將這些敏感信息隱藏起來，確保安全性。
+
+!["Credentials"](/img/posts/jenkins/jenkinsfile/credentials.png "Credentials")
+
+下列會列舉如何在 Jenkinsfile 中使用 Credentials 取得 GitLab API Token 然後在 shell 中使用它查詢 Gitlab 專案的 Webhook。
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Use Credentials') {
+      steps {
+        withCredentials([
+          string(credentialsId: 'GITLAB_API_TOKEN', variable: 'GITLAB_API_TOKEN')
+        ]) {
+          sh '''
+            HOOKS_RESPONSE=$(curl --silent --show-error --fail-with-body \
+            --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" \
+            "${API_BASE}?per_page=100&page=${PAGE}")
+          '''
+        }
       }
     }
   }
