@@ -2,7 +2,7 @@
 title: "mongoDB TTL Index 自動刪除過期資料"
 date: 2026-03-06T17:12:53+08:00
 draft: false
-tags: ["mongoDB", "TTL Index", "過期資料", "自動刪除", "資料庫管理"]
+tags: ["mongoDB"]
 description: "在 MongoDB 中，TTL（Time To Live）索引是一種特殊的索引類型，用於自動刪除過期的文檔。這對於需要定期清理過期數據的應用程序非常有用，例如會話管理、日誌記錄和緩存數據等。本文將介紹 TTL 索引的概念、如何在程式碼中使用它，以及一些補充說明。"
 ---
 ## 前言🔖
