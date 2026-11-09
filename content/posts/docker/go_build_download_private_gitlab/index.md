@@ -2,7 +2,7 @@
 title: "Docker 建構 Golang 專案時，下載私有庫依賴失敗"
 date: 2026-01-19T14:40:07+08:00
 draft: false
-tags: ["Docker", "Golang"]
+tags: ["docker"]
 description: "在進行 Golang 專案建構時，`go.mod` 可能會需要指定在同一個私有庫中的其他專案作為依賴。在建構的過程中如果遇到無法下載私有庫依賴的問題，可能會導致建構的過程中失敗！本文將介紹如何解決這個問題。"
 ---
 

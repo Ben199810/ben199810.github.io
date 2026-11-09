@@ -2,7 +2,7 @@
 title: "規格驅動開發：使用 AI 工具進行協作開發的實踐"
 date: 2025-10-26T12:03:58+08:00
 draft: false
-tags: ["GitHub Copilot"]
+tags: ["AI"]
 description: "使用 AI 工具進行協作開發的實踐"
 ---
 ## 前言📖

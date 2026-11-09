@@ -3,7 +3,7 @@ title: "GitLab CICD"
 date: 2023-09-22
 draft: false
 description: "gitlab cicd 基礎"
-tags: ["gitlab", "cicd"]
+tags: ["gitlab"]
 ---
 
 ## 介紹

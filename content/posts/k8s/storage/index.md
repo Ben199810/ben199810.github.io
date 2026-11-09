@@ -2,7 +2,7 @@
 title: "PersistentVolume"
 date: 2025-07-02T10:36:44+08:00
 draft: false
-tags: ["kubernetes", "storage"]
+tags: ["kubernetes"]
 description: ""
 ---
 ## 介紹

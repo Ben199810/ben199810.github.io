@@ -1,7 +1,7 @@
 ---
 title: "MongoDB 語法指令整理與使用經驗分享"
 date: 2026-03-11T17:00:33+08:00
-tags: ["MongoDB"]
+tags: ["mongoDB"]
 draft: false
 description: "MongoDB 常用語法指令整理，過程中遇到的問題以及解決方案。本文將介紹 MongoDB 的基本語法指令，包括連線指令、基本指令、查詢資料、查看正在執行的操作以及查看集合的索引等。"
 ---

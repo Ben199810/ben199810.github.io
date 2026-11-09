@@ -3,7 +3,7 @@ title: "Docker 入門指南：從基礎概念到實際操作"
 date: 2023-07-30
 draft: false
 description: "Docker 是一個開源的容器化平台，允許開發者將應用程式及其依賴打包在一個輕量級的容器中，實現跨平台的一致運行環境。本文將介紹 Docker 的基本概念、優缺點，以及如何在本機上使用 Docker 啟動一個 Nginx 容器。"
-tags: ["Docker"]
+tags: ["docker"]
 ---
 
 ## 什麼是 Docker❓

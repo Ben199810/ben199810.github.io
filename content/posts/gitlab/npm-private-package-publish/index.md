@@ -1,7 +1,7 @@
 ---
 title: "加速團隊開發，使用 Gitlab Package Registry發佈 Private Package"
 date: 2026-08-25T15:06:54+08:00
-tags: ["Nodejs", "Gitlab"]
+tags: ["gitlab"]
 draft: false
 description: ""
 ---

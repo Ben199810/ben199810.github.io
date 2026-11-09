@@ -2,7 +2,7 @@
 title: "使用 Docker 搭建 MongoDB"
 date: 2026-01-29T11:58:09+08:00
 draft: false
-tags: ["docker", "mongodb", "database"]
+tags: ["docker"]
 description: "本文介紹如何使用 Docker 搭建 MongoDB 環境，包括配置副本集和設置持久化存儲。"
 ---
 

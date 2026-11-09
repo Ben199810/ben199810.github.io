@@ -2,7 +2,7 @@
 title: "Rewrite vs Redirect"
 date: 2025-08-19T08:47:58+08:00
 draft: false
-tags: ["nginx", "rewrite", "redirect"]
+tags: ["nginx"]
 description: "nginx 的 rewrite 和 redirect 的差異"
 ---
 ## 前言

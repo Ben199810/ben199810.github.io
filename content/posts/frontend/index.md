@@ -2,7 +2,7 @@
 title: "前端基礎學習筆記"
 date: 2026-08-11T10:28:52+08:00
 draft: true
-tags: ["Frontend", "Note"]
+tags: ["frontend"]
 description: "個人學習前端的筆記，目前不是很完整，僅供自己複習使用。"
 ---
 

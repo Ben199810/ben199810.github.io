@@ -3,7 +3,7 @@ title: "Jinja2 Dryrun"
 date: 2026-07-21T16:23:02+08:00
 draft: true
 description: "調整 templates jinja2 模板，使用 dryrun 方式，先在本地端渲染模板，確認語法有無錯誤。"
-tags: ["ansible", "jinja2", "dryrun"]
+tags: ["ansible"]
 ---
 
 ## 簡介

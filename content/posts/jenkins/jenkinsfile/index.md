@@ -2,7 +2,7 @@
 title: "Jenkinsfile 範例與應用"
 date: 2026-02-05T15:26:08+08:00
 draft: false
-tags: ["Jenkins"]
+tags: ["jenkins"]
 description: "Jenkinsfile 範例與應用，介紹如何在 Jenkins 中使用程式碼管理 Pipeline 配置，包括變數、結構化參數、Shell 執行結果以及構建信息的顯示。"
 ---
 ## 前言🔖

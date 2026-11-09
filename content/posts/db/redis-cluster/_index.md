@@ -1,7 +1,7 @@
 ---
 title: "Redis 不夠用？Redis Cluster 來幫你實現高可用與高吞吐量"
 date: 2026-09-08T09:25:59+08:00
-tags: ["Redis", "Redis Cluster"]
+tags: ["redis"]
 draft: false
 description: ""
 ---

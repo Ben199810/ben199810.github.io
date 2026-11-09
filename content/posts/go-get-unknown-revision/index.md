@@ -2,7 +2,7 @@
 title: 'Go Get 出現 "Invalid Version: Unknown Revision" 錯誤 - 排查過程與解決方式'
 date: 2026-08-10T15:23:38+08:00
 draft: false
-tags: ["Go"]
+tags: ["go"]
 description: "執行 go get 取得私有庫時，出現 Invalid Version: Unknown Revision 錯誤訊息，排查過程與解決方式，包含檢查 go env、git config、git 的歷程以及 git ls-remote 等方式。"
 ---
 

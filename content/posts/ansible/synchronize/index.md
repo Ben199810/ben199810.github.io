@@ -2,7 +2,7 @@
 title: "Synchroize 同步遠端伺服器檔案"
 date: 2026-08-21T10:11:09+08:00
 draft: false
-tags: ["Ansible"]
+tags: ["ansible"]
 description: ""
 ---
 

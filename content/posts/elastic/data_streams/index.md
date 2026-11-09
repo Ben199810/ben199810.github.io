@@ -2,7 +2,7 @@
 title: "Elastic Data Streams 自動化管理 Index 的生命週期"
 date: 2026-01-21T11:45:37+08:00
 draft: false
-tags: ["elastic","data streams","index lifecycle management","ilm"]
+tags: ["elastic"]
 description: ""
 ---
 

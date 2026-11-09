@@ -3,7 +3,7 @@ title: "使用 OS Login 管理 GCP VM 存取權限"
 date: 2025-12-22T15:57:06+08:00
 draft: false
 description: ""
-tags: ["GCP", "OS Login"]
+tags: ["GCP"]
 ---
 
 ## 前言🔖

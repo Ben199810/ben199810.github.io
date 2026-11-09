@@ -2,7 +2,7 @@
 title: "Elasticsearch 集群部署指南：使用 Docker Compose 快速搭建"
 date: 2026-04-20T09:09:58+08:00
 draft: false
-tags: ["elasticsearch", "docker-compose", "cluster-deploy"]
+tags: ["elastic"]
 description: "本文將介紹如何使用 Docker Compose 快速部署一個 Elasticsearch 集群，包含三個節點和一個 Kibana 節點。通過這個指南，你將學會如何配置和啟動 Elasticsearch 集群，以及如何訪問 Kibana 來管理和可視化你的數據。"
 ---
 

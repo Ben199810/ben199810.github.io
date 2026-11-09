@@ -3,7 +3,7 @@ title: "使用 Minikube 在本機電腦模擬 Kubernetes 環境（Mac M1/M2）"
 date: 2023-09-24
 draft: false
 description: ""
-tags: ["kubernetes", "minikube", "mac", "m1", "m2"]
+tags: ["kubernetes", "minikube"]
 
 ---
 

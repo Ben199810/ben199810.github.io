@@ -3,7 +3,7 @@ title: "省錢大作戰 - 單一節點部署 Redis Cluster"
 date: 2026-09-23T10:35:40+08:00
 draft: false
 description: ""
-tags: ["Redis", "Redis Cluster"]
+tags: ["Redis"]
 ---
 
 ## 前言 🔖

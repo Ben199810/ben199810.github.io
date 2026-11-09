@@ -2,7 +2,7 @@
 title: "Dockerfile 入門指南：從基礎概念到實際操作"
 date: 2023-08-27
 description: "Dockerfile 是一個用來定義 Docker 映像檔的文本文件，通過編寫 Dockerfile，可以自動化地建構出符合需求的 Docker 映像檔。本文將介紹 Dockerfile 的基本概念、語法結構，以及如何撰寫一個簡單的 Dockerfile 來建構一個 Golang 應用程式的映像檔，最後還會介紹一些 Dockerfile 的最佳實踐和安全性考量。"
-tags: ["Docker", "Dockerfile"]
+tags: ["docker"]
 ---
 
 ## 前言

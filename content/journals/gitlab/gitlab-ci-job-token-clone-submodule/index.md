@@ -2,7 +2,7 @@
 title: "使用 Git Submodule 管理公共資源倉庫，優化 GitLab CI 部署流程"
 date: 2026-06-18T10:08:48+08:00
 draft: false
-tags: ["Gitlab", "CICD", "Submodule"]
+tags: ["gitlab", "git"]
 description: "本文介紹如何使用 Git Submodule 管理公共資源倉庫，從而優化 GitLab CI 的部署流程。"
 ---
 

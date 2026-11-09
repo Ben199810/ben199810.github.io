@@ -2,7 +2,7 @@
 title: "Ansible - 輕鬆管理自動化部署"
 date: 2026-07-29T16:49:16+08:00
 draft: false
-tags: ["Ansible"]
+tags: ["ansible"]
 description: "Ansible 是一個幫助自動化 IT 的基礎建設工具。它可以配置系統、部署軟體以及協調更複雜的 IT 任務，可以大幅度的減少重複性工作，提高效率。"
 ---
 

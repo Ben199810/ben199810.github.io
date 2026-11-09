@@ -3,7 +3,7 @@ title: "Log 設計 & 如何有效收集特定級別的 Log"
 date: 2026-06-02T08:53:04+08:00
 draft: false
 description: "在這篇文章中，我們將介紹 log 設計的基本原則，以及如何有效的收集特定級別的 log，並且會介紹 ElasticSearch 在處理 log 的時候會有什麼限制。"
-tags: ["ElasticSearch", "Log", "Log Design", "Log Collection"]
+tags: ["elastic", "log"]
 ---
 
 ## 前言🔖

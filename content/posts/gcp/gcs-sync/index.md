@@ -2,7 +2,7 @@
 title: "CICD 自動化更新Google Cloud Storage"
 date: 2026-08-24T15:52:45+08:00
 draft: false
-tags: ["GCP", "GCS"]
+tags: ["GCP"]
 description: ""
 ---
 

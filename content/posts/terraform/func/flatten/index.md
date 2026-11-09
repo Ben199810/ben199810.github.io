@@ -2,7 +2,7 @@
 title: "Terraform Flatten 函數的使用範例"
 date: 2026-08-18T09:38:46+08:00
 draft: false
-tags: ["Terraform"]
+tags: ["terraform"]
 description: "自己看官方文件後，依據自己的理解重新再打一次使用方式，增加了比較詳細的說明，方便日後查詢能更好的重新理解"
 ---
 

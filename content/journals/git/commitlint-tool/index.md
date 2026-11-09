@@ -3,7 +3,7 @@ title: "使用 commitlint 工具規範提交訊息格式"
 date: 2026-05-27T14:50:41+08:00
 draft: false
 description: "在專業協作開發中，使用 commitlint 工具來規範提交訊息的格式是非常重要的。這不僅有助於提高代碼的可讀性，還能促進團隊協作和版本控制的管理。本文將介紹如何使用 commitlint 工具來規範提交訊息格式，以及一些常用的規則和插件配置。"
-tags: ["git", "commitlint"]
+tags: ["git"]
 ---
 
 ## 前言🔖

@@ -3,7 +3,7 @@ title: "Git Commit Message 的撰寫規範與工具推薦"
 date: 2026-05-25T17:16:45+08:00
 draft: false
 description: "在軟體過程開發中，良好的 Git Commit 規範是維護專案歷史清晰、協作順暢的關鍵。本文將介紹如何撰寫優質的 Git Commit Message，並推薦實用工具幫助團隊遵守規範。"
-tags: ["Git", "Commit Message", "Conventional Commits"]
+tags: ["git"]
 ---
 ## 前言🔖
 

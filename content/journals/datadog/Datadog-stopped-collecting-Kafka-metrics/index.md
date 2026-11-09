@@ -2,7 +2,7 @@
 title: "Datadog Stopped Collecting Kafka Metrics"
 date: 2025-07-18T12:20:37+08:00
 draft: false
-tags: ["datadog", "kafka", "metrics"]
+tags: ["datadog"]
 description: ""
 ---
 ## 事件過程
