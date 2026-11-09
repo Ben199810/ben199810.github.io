@@ -1,8 +1,9 @@
 ---
 title: "Vault 保護機敏資料"
 date: 2026-11-09T11:56:58+08:00
-draft: true
-description: ""
+draft: false
+tags: ["ansible"]
+description: "使用 Ansible Vault 保護機敏資料，確保敏感資訊不以明文形式暴露。"
 ---
 
 ## 前言 🔖
