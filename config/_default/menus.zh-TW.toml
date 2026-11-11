@@ -22,7 +22,13 @@
 
 [[main]]
   name = "遊戲"
-  pageRef = "games"
+  weight = 10
+
+[[main]]
+  name = "賽爾號"
+  parent = "遊戲"
+  pre = "game"
+  pageRef = "seer"
   weight = 10
 
 [[main]]
