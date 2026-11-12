@@ -28,7 +28,7 @@
   name = "賽爾號"
   parent = "遊戲"
   pre = "game"
-  pageRef = "seer"
+  pageRef = "/games/seer"
   weight = 10
 
 [[main]]
