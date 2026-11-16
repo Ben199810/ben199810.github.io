@@ -1,8 +1,15 @@
 disabled = false
-languageCode = "zh-tw"
-languageName = "Traditional Chinese"
+label = "Traditional Chinese"
 weight = 1
 title = "Ben's 探索遊記"
+
+# 新的 language 配置、取代 languageCode 設定
+[languages]
+  [languages.zh-tw]
+    locale = "zh-tw"
+    label = "繁體中文"
+    direction = "ltr"
+    weight = 1
 
 [params]
   displayName = "繁體中文"
