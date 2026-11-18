@@ -7,7 +7,7 @@ description: "MongoDB 常用語法指令整理，過程中遇到的問題以及�
 ---
 ## 前言🔖
 
-近期因為工作上需要排查 MongoDB 的問題，過程中有使用很多的語法指令幫助自己在過程中了解問題所在，想要將近期的學習過程中所使用的 MongoDB 語法指令做一個整理，方便自己在未來需要使用的時候可以快速找到。
+工作上需要排查 MongoDB 的問題，過程中有使用很多的語法指令幫助自己在過程中了解問題所在，將學習過程中所使用的 MongoDB 語法指令做一個整理，方便自己在未來需要使用的時候可以快速找到。
 
 ## MongoDB 常用語法指令📌
 
@@ -158,3 +158,22 @@ db.${collection}.getIndexes()
 2. **刪除過期資料**：建立 TTL Index 可以自動刪除過期的資料，例如：session 或者 token 等等。詳細的說明可以參考之前的文章 [mongoDB TTL Index 自動刪除過期資料](../TTL/index.md)。
 3. **優化排序**：建立索引可以優化資料的排序，例如：按照日期或者價格等等。
 4. **覆蓋查詢**：當你查詢的欄位剛好都在索引中時，MongoDB 可以直接從索引回傳結果，完全不需要讀取原始的 Document，這樣可以大幅提升查詢效率，減少磁碟 I/O 開銷。
+
+#### 更換資料庫密碼🔐
+
+定期更換資料庫的密碼是確保資料庫安全的重要措施，可以使用 `db.changeUserPassword` 指令來更換使用者的密碼
+
+首先，要先確定我們執行的節點是 Master 節點，因為我們的服務是 docker 所以會用以下的方式來確認 Master 節點。
+
+```shell
+docker exec -it <container_name> mongosh -u <username> -p <password> --authenticationDatabase admin --quiet --eval "db.hello().isWritablePrimary"
+```
+
+如果回傳結果是 `true`，表示該節點是 Master 節點，可以進行密碼更換操作；如果是 `false`，則表示該節點不是 Master 節點，不能進行密碼更換。
+
+確認後進行登入
+
+```shell
+use admin # 切換到 admin 資料庫，通常管理使用者的密碼會在 admin 資料庫中進行
+db.changeUserPassword("username", "new_password")
+```
